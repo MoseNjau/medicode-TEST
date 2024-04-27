@@ -1,10 +1,89 @@
-<html>
-    <h1>register</h1>
-    <form action="" method="post"  autocomplete="off">
-        {% csrf_token %}
-        {{ registerform.as_p }}
-        <input type="submit" value="Register">
-    </form>
-    <a href="{% url 'login' %}"> Sign in?</a>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        .custom-button {
+            background-color: #583881;
+            border-color: #583881;
+        }
+        .custom-button:hover {
+            background-color: #492f63;
+            border-color: #492f63;
+        }
+        strong {
+            color:#DB7461;
+            font-weight: bold;
+        }
+        a {
+            color:#DB7461;
+        }
+        body {
+            min-height: 100vh;
+            min-width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        } 
+    </style>
+</head>
+<body>
+    <div class="container mt-5 align-items-center">
+        <div class="row justify-content-between">
+            <div class="col-md-4 mx-5 mt-0">
+                <img src="{% static 'Login hero.png' %}" class="img-fluid" style="max-width: 400px;" alt="Image">
+            </div>
+            <div class="col-md-6 mt-6">
+                <h4 class="text-left">Welcome to <strong>CareLink!</strong> Let's get started by creating your secure account </h4>
+                <div class="row">
+                    <div class="col-md-10">
+                        <form action="" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    {{ registerform.username }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    </div>
+                                    {{ registerform.password1 }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    </div>
+                                    {{ registerform.password2 }}
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block custom-button">Register <i class="fas fa-user-plus"></i></button>
+                        </form>
+                        <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Sign In <i class="fas fa-sign-in-alt"></i></a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Bootstrap JS and dependencies (jQuery, Popper.js) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 </html>
+
