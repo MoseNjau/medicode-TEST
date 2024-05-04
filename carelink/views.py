@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, Redirect
 from .forms import CreateUserForm,LoginForm
 from django.contrib.auth.models import auth
 
@@ -24,23 +24,23 @@ def register(request):
         
 
     context ={
-        'registerform':form,
+        'registerform':form, 
     }    
     return render(request,"carelink/register.html", context)
 
-def login(request):
+def login_view(request):
     form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request, data = request.POST)
         if form.is_valid():
             username = request.POST.get('username')
             password = request.POST.get('password')
-            user = authenticate(request, username = username, password = password)
+            user = authenticate(request ,username = username, password = password)
             if user is not None:
                 auth.login(request, user)
                 return redirect('dashboard')
             else:
-                return HttpResponseRedirect('login')
+                return redirect('login')
   
     context = {
       'loginform': form,
