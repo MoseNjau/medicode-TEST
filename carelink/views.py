@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,reverse
-from django.http import HttpResponse, Redirect
+from django.http import HttpResponseRedirect
 from .forms import CreateUserForm,LoginForm
 from django.contrib.auth.models import auth
 
