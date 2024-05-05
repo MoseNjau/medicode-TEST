@@ -8,10 +8,8 @@ urlpatterns = [
     path('login/', views.login_view , name='login'),
     path('dashboard/', views.dashboard , name='dashboard'),
     path('logout',views.logout,name = "logout" ),
-    #urls for sending messages (to implement later)
-    path('chat/<str:room>/', views.room, name='room'),
-    path('/checkview/', views.checkview, name='checkview'),
-    path('send', views.send, name='send'),
-    path('getMessages/<str:room>/', views.getMessages, name='getMessages'),
+    #urls for sending messages
+    path('send_message/', views.send_message, name='send_message'),
+    path('check_messages/', views.check_messages, name='check_messages'), 
 ]
 
