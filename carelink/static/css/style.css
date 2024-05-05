@@ -1,0 +1,31 @@
+
+       .custom-button {
+            background-color: #583881;
+            border-color: #583881;
+        }
+
+        .custom-button:hover {
+            background-color: #492f63;
+            border-color: #492f63;
+        }
+
+        strong {
+            color: #DB7461;
+            font-weight: bold;
+        }
+
+        a {
+            color: #DB7461;
+        }
+
+        nav {
+            padding-inline:1rem;
+            display:flex;
+        }
+
+        .carelink {
+            color: #DB7461
+        }
+        .carelink-bg{
+          background: #DB7461 ;
+        }

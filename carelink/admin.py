@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from .forms import CreateUserForm
 #import the room and message from the model 
-from .models import Room, Message
+from .models import Message
 
 class CustomUserAdmin(BaseUserAdmin):
     add_form = CreateUserForm
@@ -18,6 +18,5 @@ class CustomUserAdmin(BaseUserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 
-# Register your room and message here.
-admin.site.register(Room)
+# Register your and message here.
 admin.site.register(Message)
