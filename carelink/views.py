@@ -104,3 +104,5 @@ def getMessages(request, room):
 def colourful(request):
     return render(request, 'carelink/colourful.html')
 
+def profile(request):
+    return render(request,"carelink/profile.html")

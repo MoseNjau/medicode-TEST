@@ -14,6 +14,13 @@ class CreateUserForm(UserCreationForm):
             'password1': forms.PasswordInput(attrs={'class': 'form-control text-default', 'placeholder': 'Password'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password confirmation'}),
         }
+    # def save(self, commit=True):
+    #     user = super().save(commit=False)
+    #     if commit:
+    #         user.save()
+    #         profile = Profile.objects.create(user=user, id_number=self.cleaned_data['id_number'], phone_number=self.cleaned_data['phone_number'])
+    #     return user    
+        
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Username '}))

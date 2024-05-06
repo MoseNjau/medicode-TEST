@@ -1,0 +1,47 @@
+<!-- profile.html -->
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{%static 'css/bootstrap-chat.min.css'%}" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg container">
+        <img src="{%static 'Login hero.png'%}" alt="logo" width="30">
+        <a class="navbar-brand carelink mx-2" href="{% url 'dashboard'%}"> <b>CARELINK</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link carelink" style="justify-self: flex-end;" href="{% url 'profile' %}">my profile <i class="fas fa-user"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">patients <i class="fas fa-wheelchair"></i></a>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">service providers <i class="fas fa-user-nurse"></i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link carelink" style="justify-self: flex-end;" href="{% url 'logout' %}">Logout <i class="fas fa-sign-out-alt"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+  
+    
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>phone_number:</strong> {{ user.Phone_number }}</p>
+    <p><strong>id_number:</strong> {{ user.id_number }}</p>
+    <!-- Add other user information here -->
+</body>
+</html>
