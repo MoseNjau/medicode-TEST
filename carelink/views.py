@@ -78,8 +78,7 @@ def send_message(request):
         data = json.loads(request.body)
         content = data['content']  # Assuming content is sent in the request POST data
         sender = request.user
-        receiver_id = int(data['receiver_id'])  # Assuming receiver_id is sent in the request POST data
-        print(data,content)      
+        receiver_id = int(data['receiver_id'])  # Assuming receiver_id is sent in the request POST data     
         receiver = User.objects.get(pk=receiver_id)
         
         # Create a new message instance
@@ -95,7 +94,6 @@ def send_message(request):
 def check_messages(request):
     if request.method == 'POST':
         receiver_id = json.loads(request.body)['receiver']
-        print(receiver_id)
         # Get messages for the current user
         user_messages = Message.objects.filter((Q(sender=request.user) & Q(receiver_id=receiver_id)) | (Q(sender_id=receiver_id) & Q(receiver=request.user))).order_by('timestamp') 
         # Serialize messages data
@@ -120,7 +118,6 @@ def patients(request):
             data.append(row)
     # Pass the data to the template or return it as a JSON response
     context = {'patients': data}
-    print(context)
     return render(request,"carelink/patients.html",context)
 
 @login_required

@@ -32,6 +32,7 @@
   gap: 0.6em;
   font-weight: bold;
 }
+
 .view-button .arrow-wrapper {
   display: flex;
   justify-content: center;
@@ -72,6 +73,7 @@
 .view-button:hover .arrow:before {
   right: 0;
 }
+
 .patient-details {
   width: 300px;
   height: fit-content;
@@ -89,9 +91,12 @@
   margin-top:1rem;
   margin-bottom:1rem;
 }
-.patient-details i {
-  font-size:20px;
+
+.patient-list i, .patient-action i {
+  font-size:30px;
+  color:#DB7461;
 }
+
 .patient-wrapper{
   position:relative;
   display:flex;
@@ -110,12 +115,14 @@
 }
 span{
   font-weight:bold;
+  color:#583881;
 }
 select {
     /* Remove default styles */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+
   border: none;
   margin: 0;
   font-family: inherit;
@@ -193,6 +200,10 @@ input[type="text"]:focus {
   scrollbar-width: thin; /* Width of the scrollbar */
   scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
 }
+.hidden{
+  visibility:hidden;
+  flex:0;
+}
     </style>
   <!--nav-->
  <nav class="navbar navbar-expand-lg">
@@ -251,8 +262,12 @@ input[type="text"]:focus {
     </div>
   </div>
   <!--patient action section-->
-  <div class="patient-action mt-2">
-    <h3>Perfom Action</h3>
+  <div class="patient-action mt2" style="overflow:auto; display:flex;justify-content:center;align-items:center;flex-direction:column">
+    <i class="fas fa-notes-medical" style="font-size:30px"></i>
+    <h3 class="text-muted"> Select a patient to perfom an action</h3>
+  </div>
+  <div class="patient-action mt-2 hidden">
+    <h3><i class="fas fa-exclamation-circle"></i> Perfom Action</h3>
     <!--patient information-->
       <!--condition-->
       <p class="patient-condition">Condition: <span>patient-condition</span></p>
@@ -261,7 +276,7 @@ input[type="text"]:focus {
       <ul class="patient-info">
       </ul>
       
-      <p><span>Record History:</span></p>
+      <p><i class="fas fa-database"> </i> <span>Record History:</span></p>
       <!--Refferal History-->
       <table class="mb-2" id="history">
   <thead>
@@ -303,8 +318,13 @@ input[type="text"]:focus {
     var historyTable = document.querySelector('#history')
     var patientInfo =  document.querySelector('.patient-info')
     var patientSearchInput = document.querySelector('#patient-search') 
-    var patientDetails = document.querySelectorAll('.patient-list')[1] 
-    var loadPatientDetails = (number) =>{ 
+    var patientDetails = document.querySelectorAll('.patient-list')[1]
+    var patientAction = document.querySelectorAll('.patient-action')
+    
+    //load selected patient details 
+    var loadPatientDetails = (number) =>{
+      patientAction[1].classList.remove('hidden')
+      patientAction[0].classList.add('hidden')
       // Create a new XMLHttpRequest object
       var xhr = new XMLHttpRequest();
   
@@ -399,7 +419,7 @@ input[type="text"]:focus {
               <!--action button-->
               <button class='view-button' onclick="loadPatientDetails(${patient_number})">
                 view ${name}
-                <div class="arrow-wrapper">
+                <div class="arrow-wrapper"> 
                   <div class="arrow"></div>
                 </div>
               </button>
