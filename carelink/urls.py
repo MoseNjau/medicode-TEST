@@ -10,6 +10,10 @@ urlpatterns = [
     path('logout',views.logout,name = "logout" ),
     #urls for sending messages
     path('send_message/', views.send_message, name='send_message'),
-    path('check_messages/', views.check_messages, name='check_messages'), 
+    path('check_messages/', views.check_messages, name='check_messages'),
+    path('patients/',views.patients,name='patients'),
+    path('service_providers/',views.service_providers,name="service_providers"),
+    path('retrieve_history/',views.retrieve_history,name="retrieve_history"),
+    path('search/',views.search,name="search")
 ]
 

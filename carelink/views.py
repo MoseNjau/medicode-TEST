@@ -6,7 +6,8 @@ from django.contrib.auth.models import auth,User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-
+import csv,os
+from django.conf import settings
 import json 
 from .models import Message
 from django.http import HttpResponse, JsonResponse
@@ -97,7 +98,6 @@ def check_messages(request):
         print(receiver_id)
         # Get messages for the current user
         user_messages = Message.objects.filter((Q(sender=request.user) & Q(receiver_id=receiver_id)) | (Q(sender_id=receiver_id) & Q(receiver=request.user))).order_by('timestamp') 
-        print(user_messages)
         # Serialize messages data
         messages_data = [{'content': message.content, 'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S'),'sender':message.sender.pk == request.user.pk } for message in user_messages]
         
@@ -107,3 +107,67 @@ def check_messages(request):
         # Return an error response if the request method is not GET
         return JsonResponse({'status': 'error', 'message': 'Only GET requests are allowed'})
 
+@login_required
+@csrf_exempt
+def patients(request):
+    # Build the file path
+    file_path = os.path.join(settings.BASE_DIR, 'data', 'patients.csv')
+    # Open and read the CSV file
+    data = []
+    with open(file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            data.append(row)
+    # Pass the data to the template or return it as a JSON response
+    context = {'patients': data}
+    print(context)
+    return render(request,"carelink/patients.html",context)
+
+@login_required
+@csrf_exempt
+def retrieve_history(request):
+    if request.method == 'POST':
+        patient_number = json.loads(request.body)['patientNumber']
+
+    file_path = os.path.join(settings.BASE_DIR,'data','patient-history.csv')
+    history = []
+    with open(file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            if int(row['patient_number']) == patient_number:
+                history.append(row)
+    file_path = os.path.join(settings.BASE_DIR, 'data', 'patients.csv')
+    # Open and read the CSV file
+    personalInfo = []
+    with open(file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            if(int(row['patient_number']) == patient_number):
+                personalInfo.append(row)
+
+    return JsonResponse({'history':history,'info':personalInfo})
+
+@login_required
+@csrf_exempt
+def search(request):
+    if request.method == 'POST':
+        search_phrase = json.loads(request.body)['searchPhrase']
+    
+        file_path = os.path.join(settings.BASE_DIR, 'data', 'patients.csv')
+        # Open and read the CSV file
+        results = []
+        with open(file_path, 'r') as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+            for row in csv_reader:
+                print(search_phrase.lower(),row['name'].lower())
+                if(search_phrase in row['patient_number'].lower() or search_phrase.lower() in row['name']):
+                    results.append(row)
+            if len(results) == 0:
+                results.append('Not found')
+
+        return JsonResponse({'results':results})
+
+
+
+def service_providers(request):
+    return render(request,"carelink/service-providers.html")

@@ -1,0 +1,26 @@
+patient_number,referralDate,referralProvider,referralReason,Specialty,Status
+12345,05/01/2024,Dr. Wanjiku Njoroge,Chronic back pain,Orthopedics,Completed
+12345,07/15/2024,Dr. Wanjiku Njoroge,Follow-up for back pain,Orthopedics,Scheduled
+12345,10/01/2024,Dr. Wanjiku Njoroge,Potential knee surgery,Orthopedics,Pending
+23456,03/15/2024,Dr. Amos Muriuki,Suspected thyroid disorder,Endocrinology,Pending
+23456,06/01/2024,Dr. Amos Muriuki,Thyroid biopsy,Endocrinology,Scheduled
+34567,01/20/2024,Dr. Amina Hassan,Abnormal mammogram,Oncology,Completed
+34567,04/15/2024,Dr. Amina Hassan,Follow-up after treatment,Oncology,Scheduled
+45678,11/10/2023,Dr. Farah Ahmed,Severe headaches,Neurology,Completed
+45678,02/01/2024,Dr. Farah Ahmed,MRI scan for headaches,Neurology,Completed
+45678,05/15/2024,Dr. Farah Ahmed,Medication review,Neurology,Scheduled
+56789,05/01/2024,Dr. Mwangi Kariuki,Chronic back pain,Orthopedics,Completed
+56789,08/01/2024,Dr. Mwangi Kariuki,Physical therapy,Orthopedics,Scheduled
+67890,03/15/2024,Dr. Zaina Mwangi,Suspected thyroid disorder,Endocrinology,Pending
+67890,06/01/2024,Dr. Zaina Mwangi,Thyroid biopsy,Endocrinology,Scheduled
+78901,01/20/2024,Dr. Juma Omondi,Abnormal mammogram,Oncology,Completed
+78901,04/15/2024,Dr. Juma Omondi,Follow-up after treatment,Oncology,Scheduled
+78901,07/01/2024,Dr. Juma Omondi,Routine screening,Oncology,Scheduled
+89012,11/10/2023,Dr. Fatima Ali,Severe headaches,Neurology,Completed
+89012,02/01/2024,Dr. Fatima Ali,MRI scan for headaches,Neurology,Completed
+89012,05/15/2024,Dr. Fatima Ali,Medication review,Neurology,Scheduled
+90123,05/01/2024,Dr. Kiptoo Rotich,Chronic back pain,Orthopedics,Completed
+90123,08/01/2024,Dr. Kiptoo Rotich,Physical therapy,Orthopedics,Scheduled
+90123,11/01/2024,Dr. Kiptoo Rotich,Follow-up for back pain,Orthopedics,Scheduled
+01234,03/15/2024,Dr. Halima Omar,Suspected thyroid disorder,Endocrinology,Pending
+01234,06/01/2024,Dr. Halima Omar,Thyroid biopsy,Endocrinology,Scheduled
