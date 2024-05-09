@@ -14,6 +14,9 @@
   </head>
   <body>
     <style>
+html {
+  scroll-behaviour:smooth;
+}
       .view-button {
   --primary-color: #583881;
   --secondary-color: #fff;
@@ -305,10 +308,10 @@ input[type="text"]:focus {
         <option value="option3">Neurology</option>
         <option value="option4">Endocrinology</option>
       </select>
-      <input type="text" placeholder="Health worker to reffer to" id="doctor" required/>
-      <input type="text" class="mt-2" placeholder="Reason for refferal" id="doctor" required/> 
+      <input type="text" placeholder="Health worker to reffer to" id="refferalDoctor" required/>
+      <input type="text" class="mt-2" placeholder="Reason for refferal" id="refferalReason" required/> 
 </div>
-      <button class="view-button mt-2">
+      <button class="view-button mt-2" onclick = 'sendSMSMessage()'>
         Reffer
       </button>
   </div>
@@ -320,7 +323,7 @@ input[type="text"]:focus {
     var patientSearchInput = document.querySelector('#patient-search') 
     var patientDetails = document.querySelectorAll('.patient-list')[1]
     var patientAction = document.querySelectorAll('.patient-action')
-    
+     
     //load selected patient details 
     var loadPatientDetails = (number) =>{
       patientAction[1].classList.remove('hidden')
@@ -341,7 +344,7 @@ input[type="text"]:focus {
       let ptInfo = response['info'][0]
       patientInfo.innerHTML = ``
       for(let key in ptInfo){
-        let data = `<li>${key}: <span>${ptInfo[key]}</span></li>`
+        let data = `<li id='${key}'>${key}: <span>${ptInfo[key]}</span></li>`
         patientInfo.innerHTML+=data
       }
 
@@ -434,9 +437,58 @@ input[type="text"]:focus {
       }
     }
   };
-
   // Send the request
   xhr.send(JSON.stringify({'searchPhrase': patientSearchInput.value}));
-}  </script>
+}  
+
+
+    // Function to send the SMS message
+function sendSMSMessage() {
+  // Get the input values
+  const name = document.getElementById('name').innerText;
+  const patientNumber = document.getElementById('patient_number').innerText;
+  const referralDoctor = document.querySelector('#refferalDoctor').value;
+  const waitingNumber = 23;
+  const hospitalSelectElement = document.querySelector('#hospital');
+  const hospitalSelectedIndex = hospitalSelectElement.selectedIndex;
+  const hospitalSelectedText = hospitalSelectElement.options[hospitalSelectedIndex].text;
+  
+
+  // Create the details object
+  const details = {
+    'name':name,
+    'patient_number': patientNumber,
+    'refferalDoctor': referralDoctor,
+    'waiting_number': waitingNumber,
+    'hospital':hospitalSelectedText
+  };
+
+  // Create the request object
+  const xhr = new XMLHttpRequest();
+
+  // Open the request
+
+  xhr.open('POST', '/send_sms/', true);
+
+  // Set the request header
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // Define the callback function for handling the response
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Request successful
+        alert('SMS message sent successfully');
+      } else {
+        // Request failed
+        console.error('Error:', xhr.statusText);
+      }
+    }
+  };
+
+  // Send the request
+  xhr.send(JSON.stringify(details));
+}
+</script>
   </body>
 </html>

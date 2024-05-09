@@ -15,6 +15,14 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Message
 from django.contrib.auth.decorators import login_required
 
+#for messages 
+import requests
+from twilio.rest import Client
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 def homepage(request):
     return render(request,"carelink/index.html")
 
@@ -163,7 +171,43 @@ def search(request):
 
         return JsonResponse({'results':results})
 
+@login_required
+@csrf_exempt
+def send_sms_message(request):
+    if request.method == 'POST':
+        #get the details: 
+        details = json.loads(request.body)
+        """
+        {
+        name,
+        patient_number,
+        refferalDoctor,
+        waiting number
+        }
+        """
+        PHONE_NUMBER = os.getenv('PHONE_NUMBER')
+        TWILIO_ACCOUNT_SID = os.getenv('ACC_SID')
+        TWILIO_AUTH_TOKEN = os.getenv('AUTH_TOKEN')
+        TWILIO_MESSAGE_SERVICE_SID = os.getenv('MESSAGING_SERVICE')
 
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        print(client, TWILIO_AUTH_TOKEN)
+
+ # Extract the values from the details object
+        name = details.get('name')
+        patient_number = details.get('patient_number')
+        referral_doctor = details.get('refferalDoctor')
+        waiting_number = details.get('waiting_number')
+        hospital = details.get('hospital')
+
+        # Prepare the referral message
+        referral_message = f"{name}, upon evaluating your condition, we reffer you to {referral_doctor} of {hospital} for further care. The hospital has specialists who can better manage your condition. Please take your medical records with you, your waiting number is {waiting_number}."
+        message = client.messages.create(
+        messaging_service_sid=TWILIO_MESSAGE_SERVICE_SID,
+        body=referral_message,
+        to='+254702716555'
+)
+        return JsonResponse({'message':'message successfully sent to patient'})
 
 def service_providers(request):
     return render(request,"carelink/service-providers.html")
