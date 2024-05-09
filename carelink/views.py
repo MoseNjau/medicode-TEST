@@ -11,6 +11,9 @@ from django.conf import settings
 import json 
 from .models import Message
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Message
+from django.contrib.auth.decorators import login_required
 
 def homepage(request):
     return render(request,"carelink/index.html")
@@ -66,10 +69,7 @@ def dashboard(request):
             }
     return render(request,"carelink/dashboard.html",context)
 
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import Message
-from django.contrib.auth.decorators import login_required
+
 
 @login_required
 @csrf_exempt
@@ -159,8 +159,7 @@ def search(request):
         with open(file_path, 'r') as csv_file:
             csv_reader = csv.DictReader(csv_file)
             for row in csv_reader:
-                print(search_phrase.lower(),row['name'].lower())
-                if(search_phrase in row['patient_number'].lower() or search_phrase.lower() in row['name']):
+                if(search_phrase in row['patient_number'].lower() or search_phrase.lower() in row['name'].lower()):
                     results.append(row)
             if len(results) == 0:
                 results.append('Not found')
