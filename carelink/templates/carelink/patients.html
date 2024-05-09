@@ -89,6 +89,9 @@
   margin-top:1rem;
   margin-bottom:1rem;
 }
+.patient-details i {
+  font-size:20px;
+}
 .patient-wrapper{
   position:relative;
   display:flex;
@@ -300,7 +303,7 @@ input[type="text"]:focus {
     var historyTable = document.querySelector('#history')
     var patientInfo =  document.querySelector('.patient-info')
     var patientSearchInput = document.querySelector('#patient-search') 
-    
+    var patientDetails = document.querySelectorAll('.patient-list')[1] 
     var loadPatientDetails = (number) =>{ 
       // Create a new XMLHttpRequest object
       var xhr = new XMLHttpRequest();
@@ -360,34 +363,60 @@ input[type="text"]:focus {
 
 
     //search users 
-    patientSearchInput.oninput = (e) =>{
-      console.log(patientSearchInput.value);
-      // Create a new XMLHttpRequest object
-      const xhr = new XMLHttpRequest();     
+    patientSearchInput.oninput = (e) => {
+  console.log(patientSearchInput.value);
 
-      // Open the request
-      xhr.open('POST', '/search/', true);
+  // Create a new XMLHttpRequest object
+  const xhr = new XMLHttpRequest();
 
-      // Set the request header (if needed)
-      xhr.setRequestHeader('Content-Type', 'application/json');
+  // Open the request
+  xhr.open('POST', '/search/', true);
 
-      // Define the callback function for handling the response
-      xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) {
-          // Request successful
-          console.log('Response:', xhr.responseText);
-        } else {
-          // Request failed
-          console.error('Error:', xhr.statusText);
+  // Set the request header (if needed)
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // Define the callback function for handling the response
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Request successful
+        let response = JSON.parse(xhr.responseText);
+
+        patientDetails.innerHTML = '';
+
+        for (const result of response.results) {
+          const { name, patient_number, "contact information": contactInfo, location } = result;
+          
+          const data = `
+            <div class="patient-details">
+              <!--icon-->
+              <i class="fas fa-user-injured"></i>
+
+              <!--patient number-->
+              <p class="patient-number">${patient_number}</p>
+
+              <p>Name: <span>${name}</span></p>
+              <!--action button-->
+              <button class='view-button' onclick="loadPatientDetails(${patient_number})">
+                view ${name}
+                <div class="arrow-wrapper">
+                  <div class="arrow"></div>
+                </div>
+              </button>
+            </div>
+          `;
+
+          patientDetails.innerHTML += data;
         }
+      } else {
+        // Request failed
+        console.error('Error:', xhr.statusText);
       }
-    };
-
-    // Send the request
-    console.log(patientSearchInput.value.toLowerCase())
-    xhr.send(JSON.stringify({'searchPhrase':(patientSearchInput.value)}));
     }
-  </script>
+  };
+
+  // Send the request
+  xhr.send(JSON.stringify({'searchPhrase': patientSearchInput.value}));
+}  </script>
   </body>
 </html>
