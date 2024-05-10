@@ -4,24 +4,27 @@ from django.http import HttpResponseRedirect
 from .forms import CreateUserForm,LoginForm
 from django.contrib.auth.models import auth,User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+
 import csv,os
 from django.conf import settings
 import json 
 from .models import Message
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Message
+from .models import Message,User_profile
 from django.contrib.auth.decorators import login_required
 
 #for messages 
 import requests
 from twilio.rest import Client
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
+#import objectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 
 def homepage(request):
     return render(request,"carelink/index.html")
@@ -78,7 +81,7 @@ def dashboard(request):
     return render(request,"carelink/dashboard.html",context)
 
 
-
+#messages 
 @login_required
 @csrf_exempt
 def send_message(request):
@@ -211,3 +214,31 @@ def send_sms_message(request):
 
 def service_providers(request):
     return render(request,"carelink/service-providers.html")
+
+
+
+@login_required
+def profile(request):
+    file_path=os.path.join(settings.BASE_DIR,'media')
+    user = request.user
+
+    try:
+        Profile = User_profile.objects.filter(user=user)
+    except ObjectDoesNotExist:
+        Profile = None
+
+    return render(request, 'carelink/profile.html', {'user': user, 'Profile': Profile})
+
+def save_profile_changes(request):
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST, instance=request.user.user_profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully.')
+            return redirect('profile')  # Redirect to the user's profile page
+        else:
+            messages.error(request, 'There was an error updating your profile. Please try again.')
+            return redirect('profile')  # Redirect back to the profile page with error messages
+    else:
+        # This view should only handle POST requests
+        return redirect('profile')  # Redirect 

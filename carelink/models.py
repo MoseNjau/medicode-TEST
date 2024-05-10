@@ -10,3 +10,15 @@ class Message(models.Model):
 
     def __str__(self):
         return f'{self.sender} to {self.receiver} ({self.timestamp})'
+    
+
+class User_profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    id_number = models.CharField(max_length=10)
+    phone_number = models.CharField(max_length=15)
+    #profike picture
+    #it should not have a default place holder for the image
+    #it should be blank=True
+    profile_pic = models.ImageField( blank=True, null=True)
+    def __str__(self):
+        return self.user.username    

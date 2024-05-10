@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+ {% load static %}   
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-chat.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-lvvFeUwKkGsOXktzK+1v3jzVqiU4ftor/HA7pSkjjtusv2ZcOyC2FZNO6wPfhyW8" crossorigin="anonymous">
+
+    <!-- Add your custom CSS file link here if needed -->
+    <style>
+        /* Custom CSS for adjusting input field sizes */
+        .form-group input[type="text"] {
+            width: 80%; /* Adjust as needed */
+            margin-right: 20px; /* Add some spacing between input fields */
+            padding: 10px;
+          
+        }
+        .form .form-group {
+            margin-bottom: 20px; /* Add some spacing between form groups */
+        }
+
+        .form .form-group label {
+            margin-bottom: 5px; /* Add some spacing between labels and inputs */
+        }
+
+        /* Custom CSS for buttons */
+        .custom-btn {
+            margin-top: 10px; /* Add some space between buttons */
+            background-color: #530692; /* Set the background color */
+            color: #ffffff; /* Set the text color */
+            border-color: #007bff; /* Set the border color */
+        }
+
+        .custom-btn:hover {
+            background-color: #0056b3; /* Change background color on hover */
+            border-color: #0056b3; /* Change border color on hover */
+        }
+        
+        /* Positioning for logout link */
+        .logout-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: #007bff;
+        }
+        .btn-primary{
+            background-color: #530692;
+            border-color: #530692;
+            border-radius: 20px;
+        }
+        .btn-secondary{
+            background-color: #530692;
+            border-color: #530692;
+            border-radius: 20px;
+        }
+        .form-control{
+            border-radius: 20px;
+        }
+        .form {
+            padding: 10px;
+            position: absolute;
+            top: 30%;
+            left: 200px; /* Adjust as needed */
+            transform: translateY(-50%);
+            width: 50%;
+        }
+        .image-section{
+            padding: 10px;
+            position: absolute;
+            top: 30%;
+            left: 800px; /* Adjust as needed */
+            transform: translateY(-50%);
+            width: 50%;
+            /*the buttons should appear at the base of the image*/
+
+
+
+        
+        }
+        .profile-image{
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 2px solid #530692;
+            display: block;
+            margin: 0 auto;
+            margin-left: 0px;
+        }
+        #generate-report-btn {
+            position: fixed;
+            bottom: 60px;
+            left: 20px;
+            width:20%
+        }
+
+        
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Profile Picture Section -->
+                
+
+            </div>
+            <div class="col-md-8">
+                <!-- User Details Section -->
+                <form method="post" action="{% url 'save_profile_changes' %}">
+                    {% csrf_token %}
+                   
+                    {% for profile in Profile %}   
+                    <div class="image-section">
+                    
+                        <img src="{% static 'profile_pics/user.PNG' %}" alt="Profile Picture" class="profile-image img-fluid mb-2">
+                        <button class="btn btn-secondary mb-2 custom-btn view-image">
+                            <i class="fa-sharp fa-regular fa-eye"></i> View </button> 
+                        
+                        <button class="btn btn-primary mb-2 custom-btn upload-picture">Upload </button> 
+                    </div>
+                
+                    <div class="form">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_number">Phone Number:</label>
+                        <input type="text" id="phone_number" name="phone_number" class="form-control" value="{{ profile.phone_number }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_number">ID Number:</label>
+                        <input type="text" id="id_number" name="id_number" class="form-control" value="{{ profile.id_number }}">
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">Save </button>
+                </div>
+                </form>
+            </div>
+            <button id="generate-report-btn" class="btn btn-primary">Generate Report</button>
+
+     </div>
+    </div>
+
+    <!-- Logout link -->
+    <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+
+    <!-- JavaScript for button functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Upload Picture Button Functionality
+            document.querySelector('.upload-picture').addEventListener('click', function() {
+                document.querySelector('{{profile.profile_pic.url}}').click();
+            });
+
+            // View Image Button Functionality
+            document.querySelector('.view-image').addEventListener('click', function() {
+                // Replace 'modalId' with the ID of your modal or lightbox
+                // Show the modal or lightbox containing the profile picture
+            });
+        });
+    </script>
+</body>
+</html>

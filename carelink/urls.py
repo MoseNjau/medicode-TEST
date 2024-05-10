@@ -6,6 +6,8 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('register/', views.register , name='register'),
     path('login/', views.login_view , name='login'),
+    path('profile/', views.profile, name='profile'),
+    path('save_profile_changes/', views.save_profile_changes, name='save_profile_changes'),
     path('dashboard/', views.dashboard , name='dashboard'),
     path('logout',views.logout,name = "logout" ),
     #urls for sending messages
