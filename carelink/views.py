@@ -1,19 +1,29 @@
+# Create your views here.
 from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponseRedirect
 from .forms import CreateUserForm,LoginForm
-from django.contrib.auth.models import auth
-
+from django.contrib.auth.models import auth,User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
-from .models import Room, Message
+from django.db.models import Q
+from .forms import CreateUserForm,LoginForm
+#import objectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
+import json 
+from .models import Message
 from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Message, User_profile
+from django.contrib.auth.decorators import login_required
+import os
+from django.conf import settings
+
 def homepage(request):
     return render(request,"carelink/index.html")
 
-
 def register(request):
-
     form = CreateUserForm()
 
     if request.method == 'POST':
@@ -21,7 +31,6 @@ def register(request):
         if form.is_valid():
             form.save()
             return redirect('login')
-        
 
     context ={
         'registerform':form, 
@@ -53,56 +62,91 @@ def logout(request):
 
     return redirect(reverse('login'))
 
-@login_required(login_url='login')
-
-def dashboard(request):
-    return render(request,"carelink/dashboard.html")
-
-def show_chat(request):
-    return render(request,"carelink/chatpage.html")
-
-# Create your views here.
 def home(request):
     return render(request, 'index.html')
 
-def room(request, room):
-    username = request.GET.get('username')
-    room_details = Room.objects.get(name=room)
-    print(room_details)
-    return render(request, 'carelink/chatpage.html', {
-        'username': username,
-        'room': room,
-        'room_details': room_details
-    })
+#dashboard feature
+@login_required(login_url='login')
+def dashboard(request):
+    users = User.objects.exclude(pk=request.user.pk)
+    context = {
+        'users':users 
+            }
+    return render(request,"carelink/dashboard.html",context)
 
-def checkview(request):
-    room = request.POST['room_name']
-    username = request.POST['username']
+#messages
 
-    if Room.objects.filter(name=room).exists():
-        return redirect('/'+room+'/?username='+username)
+@login_required
+@csrf_exempt
+def send_message(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        content = data['content']  # Assuming content is sent in the request POST data
+        sender = request.user
+        receiver_id = int(data['receiver_id'])  # Assuming receiver_id is sent in the request POST data
+        print(data,content)      
+        receiver = User.objects.get(pk=receiver_id)
+        
+        # Create a new message instance
+        message = Message.objects.create(sender=sender, receiver=receiver, content=content)
+        # Return a success response
+        return JsonResponse({'status': 'success', 'message_id': message.id})
     else:
-        new_room = Room.objects.create(name=room)
-        new_room.save()
-        return redirect('/'+room+'/?username='+username)
+        # Return an error response if the request method is not POST
+        return JsonResponse({'status': 'error', 'message': 'Only POST requests are allowed'})
 
-def send(request):
-    message = request.POST['message']
-    username = request.POST['username']
-    room_id = request.POST['room_id']
+@login_required
+@csrf_exempt
+def check_messages(request):
+    if request.method == 'POST':
+        receiver_id = json.loads(request.body)['receiver']
+        print(receiver_id)
+        # Get messages for the current user
+        user_messages = Message.objects.filter((Q(sender=request.user) & Q(receiver_id=receiver_id)) | (Q(sender_id=receiver_id) & Q(receiver=request.user))).order_by('timestamp') 
+        print(user_messages)
+        # Serialize messages data
+        messages_data = [{'content': message.content, 'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S'),'sender':message.sender.pk == request.user.pk } for message in user_messages]
+        
+        # Return messages data as JSON response
+        return JsonResponse(messages_data, safe=False)
+    else:
+        # Return an error response if the request method is not GET
+        return JsonResponse({'status': 'error', 'message': 'Only GET requests are allowed'})
 
-    new_message = Message.objects.create(value=message, user=username, room=room_id)
-    new_message.save()
-    return HttpResponse('Message sent successfully')
 
-def getMessages(request, room):
-    room_details = Room.objects.get(name=room)
 
-    messages = Message.objects.filter(room=room_details.id)
-    return JsonResponse({"messages":list(messages.values())})
 
-def colourful(request):
-    return render(request, 'carelink/colourful.html')
+@login_required
+# def profile(request):
+#     user = request.user
+#     try:
+#         profile = user.user_profile
+#     except ObjectDoesNotExist:
+#         profile = None
+
+#     return render(request, 'carelink/profile.html', {'user': user, 'profile': profile})
 
 def profile(request):
-    return render(request,"carelink/profile.html")
+    file_path=os.path.join(settings.BASE_DIR,'media')
+    user = request.user
+
+    try:
+        Profile = User_profile.objects.filter(user=user)
+    except ObjectDoesNotExist:
+        Profile = None
+
+    return render(request, 'carelink/profile.html', {'user': user, 'Profile': Profile})
+
+def save_profile_changes(request):
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST, instance=request.user.user_profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully.')
+            return redirect('profile')  # Redirect to the user's profile page
+        else:
+            messages.error(request, 'There was an error updating your profile. Please try again.')
+            return redirect('profile')  # Redirect back to the profile page with error messages
+    else:
+        # This view should only handle POST requests
+        return redirect('profile')  # Redirect 
