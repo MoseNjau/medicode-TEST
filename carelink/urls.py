@@ -8,14 +8,15 @@ urlpatterns = [
     path('login/', views.login_view , name='login'),
     path('profile/', views.profile, name='profile'),
     path('save_profile_changes/', views.save_profile_changes, name='save_profile_changes'),
-    
     path('dashboard/', views.dashboard , name='dashboard'),
-    path('logout/',views.logout,name = "logout" ),
-    #urls for sending messages (to implement later)
-    # path('chat/<str:room>/', views.room, name='room'),
-#     path('checkview/', views.checkview, name='checkview'),
-#     path('send', views.send, name='send'),
-#     path('getMessages/<str:room>/', views.getMessages, name='getMessages'),
-# 
+    path('logout',views.logout,name = "logout" ),
+    #urls for sending messages
+    path('send_message/', views.send_message, name='send_message'),
+    path('check_messages/', views.check_messages, name='check_messages'),
+    path('patients/',views.patients,name='patients'),
+    path('service_providers/',views.service_providers,name="service_providers"),
+    path('retrieve_history/',views.retrieve_history,name="retrieve_history"),
+    path('search/',views.search,name="search"),
+    path('send_sms/',views.send_sms_message,name="send_sms_message")
 ]
 
