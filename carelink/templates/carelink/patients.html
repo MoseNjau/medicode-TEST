@@ -1,0 +1,494 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Carelink| View Patients</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{%static 'css/style.css'%}" rel="stylesheet">
+    <!--fontawesome for icons-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!--bootstrap-->
+    <link rel="stylesheet" href="{%static 'css/bootstrap-chat.min.css'%}" />
+
+  </head>
+  <body>
+    <style>
+html {
+  scroll-behaviour:smooth;
+}
+      .view-button {
+  --primary-color: #583881;
+  --secondary-color: #fff;
+  --hover-color: #DB7461;
+  --arrow-width: 10px;
+  --arrow-stroke: 2px;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 20px;
+  color: var(--secondary-color);
+  padding: 0.5em 1.8em;
+  background: var(--primary-color);
+  display: flex;
+  transition: 0.2s background;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: bold;
+}
+
+.view-button .arrow-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.view-button .arrow {
+  margin-top: 1px;
+  width: var(--arrow-width);
+  background: var(--primary-color);
+  height: var(--arrow-stroke);
+  position: relative;
+  transition: 0.2s;
+}
+
+.view-button .arrow::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  border: solid var(--secondary-color);
+  border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+  display: inline-block;
+  top: -3px;
+  right: 3px;
+  transition: 0.2s;
+  padding: 3px;
+  transform: rotate(-45deg);
+}
+
+.view-button:hover {
+  background-color: var(--hover-color);
+}
+
+.view-button:hover .arrow {
+  background: var(--secondary-color);
+}
+
+.view-button:hover .arrow:before {
+  right: 0;
+}
+
+.patient-details {
+  width: 300px;
+  height: fit-content;
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  padding: 20px 30px;
+  gap: 13px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.062);
+  margin-top:1rem;
+  margin-bottom:1rem;
+}
+
+.patient-list i, .patient-action i {
+  font-size:30px;
+  color:#DB7461;
+}
+
+.patient-wrapper{
+  position:relative;
+  display:flex;
+  height:90vh;
+}
+.patient-list{
+  height:95%;
+  overflow-y:scroll;
+  flex:1;
+}
+.patient-action{
+  flex:2;
+  border-left:1px solid gray;
+  padding:0 2rem;
+  overflow-y:scroll;
+}
+span{
+  font-weight:bold;
+  color:#583881;
+}
+select {
+    /* Remove default styles */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  border: none;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius:0.5rem;
+}
+select option {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  color: #333;
+  padding: 8px;
+}
+
+select option:hover {
+  background-color: red;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 300px;
+  font-size: 16px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+/* For WebKit-based browsers (Chrome, Safari, Opera) */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color of the track (area behind the scrollbar) */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar thumb (draggable part) */
+  border-radius: 6px; /* Rounded corners for the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color of the scrollbar thumb on hover */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin; /* Width of the scrollbar */
+  scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
+}
+.hidden{
+  visibility:hidden;
+  flex:0;
+}
+    </style>
+  <!--nav-->
+ <nav class="navbar navbar-expand-lg">
+        <img src="{%static 'Login hero.png'%}" alt="logo" width="30">
+        <a class="navbar-brand carelink mx-2" href="#"> <b>CARELINK</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">my profile <i class="fas fa-user"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">patients <i class="fas fa-wheelchair"></i></a>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">service providers <i class="fas fa-user-nurse"></i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link carelink" style="justify-self: flex-end;" href="{% url 'logout' %}">Logout <i class="fas fa-sign-out-alt"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+  <section class="patient-wrapper container">
+  <div class="mt-2 patient-list">
+    <h3>Patient List</h3>
+    <input type="text" class="my-2" placeholder="search patient" id="patient-search" required/>
+    <i class="fas fa-search"></i>
+    <!--card with patients data-->
+    <div class="patient-list">
+      {%for patient in patients%}
+    <!--patient card-->
+    <div class="patient-details" id="1">
+      <!--icon-->
+      <i class="fas fa-user-injured"></i>
+      <!--patient number-->
+      <p class="patient-number">{{patient.patient_number}}</p>
+      <!--name-->
+      <p>Name: <span>{{patient.name}}</span></p>
+      <!--action button-->
+      <button class='view-button' onclick="loadPatientDetails({{patient.patient_number}})">
+        view {{patient.name}}
+      <div class="arrow-wrapper">
+        <div class="arrow"></div>
+      </div>
+      </button>
+    </div>
+    {%endfor%} 
+
+    </div>
+  </div>
+  <!--patient action section-->
+  <div class="patient-action mt2" style="overflow:auto; display:flex;justify-content:center;align-items:center;flex-direction:column">
+    <i class="fas fa-notes-medical" style="font-size:30px"></i>
+    <h3 class="text-muted"> Select a patient to perfom an action</h3>
+  </div>
+  <div class="patient-action mt-2 hidden">
+    <h3><i class="fas fa-exclamation-circle"></i> Perfom Action</h3>
+    <!--patient information-->
+      <!--condition-->
+      <p class="patient-condition">Condition: <span>patient-condition</span></p>
+      <!--personal information-->
+      <p>Patient information:</p>
+      <ul class="patient-info">
+      </ul>
+      
+      <p><i class="fas fa-database"> </i> <span>Record History:</span></p>
+      <!--Refferal History-->
+      <table class="mb-2" id="history">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Referring Provider</th>
+      <th>Reason for Referral</th>
+      <th>Specialty</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+</table>
+<div>
+      <label for="hospital">to reffer to:</label>
+      <select id="hospital">
+        <option value="option1">Hospital 1</option>
+        <option value="option2">Hospital 2</option>
+        <option value="option3">Hospital 3</option>
+        <option value="option4">Hospital 4</option>
+      </select>
+
+      <label for="speciality">speciality:</label>
+      <select id="speciality">
+        <option value="option1">Orthopedics</option>
+        <option value="option2">Oncology</option>
+        <option value="option3">Neurology</option>
+        <option value="option4">Endocrinology</option>
+      </select>
+      <input type="text" placeholder="Health worker to reffer to" id="refferalDoctor" required/>
+      <input type="text" class="mt-2" placeholder="Reason for refferal" id="refferalReason" required/> 
+</div>
+      <button class="view-button mt-2" onclick = 'sendSMSMessage()'>
+        Reffer
+      </button>
+  </div>
+</section>
+  <script>
+    //DOM elements 
+    var historyTable = document.querySelector('#history')
+    var patientInfo =  document.querySelector('.patient-info')
+    var patientSearchInput = document.querySelector('#patient-search') 
+    var patientDetails = document.querySelectorAll('.patient-list')[1]
+    var patientAction = document.querySelectorAll('.patient-action')
+     
+    //load selected patient details 
+    var loadPatientDetails = (number) =>{
+      patientAction[1].classList.remove('hidden')
+      patientAction[0].classList.add('hidden')
+      // Create a new XMLHttpRequest object
+      var xhr = new XMLHttpRequest();
+  
+      // Configure the request
+      xhr.open('POST', '/retrieve_history/', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+  
+  // Define the callback function
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // Parse the response JSON 
+      var response = JSON.parse(xhr.responseText);
+      //update patient personal infomation
+      let ptInfo = response['info'][0]
+      patientInfo.innerHTML = ``
+      for(let key in ptInfo){
+        let data = `<li id='${key}'>${key}: <span>${ptInfo[key]}</span></li>`
+        patientInfo.innerHTML+=data
+      }
+
+      //update patient History
+      historyTable.innerHTML = `
+ <thead>
+    <tr>
+      <th>Date</th>
+      <th>Referring Provider</th>
+      <th>Reason for Referral</th>
+      <th>Specialty</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+      `
+      response['history'].forEach((item)=>{
+      var data = `
+      <tr>
+          <td>${item.referralDate}</td>
+          <td>${item.referralProvider}</td>
+          <td>${item.referralReason}</td>
+          <td>${item.Specialty}</td>
+          <td>${item.Status}</td>
+    </tr>
+      `
+      historyTable.innerHTML += data;
+    })
+    };
+  };
+  
+  // Handle network errors
+  xhr.onerror = function() {
+    console.error('Network error occurred');
+  };
+  
+  // Send the request
+  xhr.send(JSON.stringify({'patientNumber':number}));
+    }
+
+
+    //search users 
+    patientSearchInput.oninput = (e) => {
+  console.log(patientSearchInput.value);
+
+  // Create a new XMLHttpRequest object
+  const xhr = new XMLHttpRequest();
+
+  // Open the request
+  xhr.open('POST', '/search/', true);
+
+  // Set the request header (if needed)
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // Define the callback function for handling the response
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Request successful
+        let response = JSON.parse(xhr.responseText);
+
+        patientDetails.innerHTML = '';
+
+        for (const result of response.results) {
+          const { name, patient_number, "contact information": contactInfo, location } = result;
+          
+          const data = `
+            <div class="patient-details">
+              <!--icon-->
+              <i class="fas fa-user-injured"></i>
+
+              <!--patient number-->
+              <p class="patient-number">${patient_number}</p>
+
+              <p>Name: <span>${name}</span></p>
+              <!--action button-->
+              <button class='view-button' onclick="loadPatientDetails(${patient_number})">
+                view ${name}
+                <div class="arrow-wrapper"> 
+                  <div class="arrow"></div>
+                </div>
+              </button>
+            </div>
+          `;
+
+          patientDetails.innerHTML += data;
+        }
+      } else {
+        // Request failed
+        console.error('Error:', xhr.statusText);
+      }
+    }
+  };
+  // Send the request
+  xhr.send(JSON.stringify({'searchPhrase': patientSearchInput.value}));
+}  
+
+
+    // Function to send the SMS message
+function sendSMSMessage() {
+  // Get the input values
+  const name = document.getElementById('name').innerText;
+  const patientNumber = document.getElementById('patient_number').innerText;
+  const referralDoctor = document.querySelector('#refferalDoctor').value;
+  const waitingNumber = 23;
+  const hospitalSelectElement = document.querySelector('#hospital');
+  const hospitalSelectedIndex = hospitalSelectElement.selectedIndex;
+  const hospitalSelectedText = hospitalSelectElement.options[hospitalSelectedIndex].text;
+  
+
+  // Create the details object
+  const details = {
+    'name':name,
+    'patient_number': patientNumber,
+    'refferalDoctor': referralDoctor,
+    'waiting_number': waitingNumber,
+    'hospital':hospitalSelectedText
+  };
+
+  // Create the request object
+  const xhr = new XMLHttpRequest();
+
+  // Open the request
+
+  xhr.open('POST', '/send_sms/', true);
+
+  // Set the request header
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // Define the callback function for handling the response
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Request successful
+        alert('SMS message sent successfully');
+      } else {
+        // Request failed
+        console.error('Error:', xhr.statusText);
+      }
+    }
+  };
+
+  // Send the request
+  xhr.send(JSON.stringify(details));
+}
+</script>
+  </body>
+</html>

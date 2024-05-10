@@ -7,18 +7,24 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import CreateUserForm,LoginForm
-#import objectDoesNotExist
-from django.core.exceptions import ObjectDoesNotExist
+
+import csv,os
+from django.conf import settings
 import json 
 from .models import Message
 from django.http import HttpResponse, JsonResponse
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Message, User_profile
+from .models import Message,User_profile
 from django.contrib.auth.decorators import login_required
-import os
-from django.conf import settings
+
+#for messages 
+import requests
+from twilio.rest import Client
+from dotenv import load_dotenv
+
+load_dotenv()
+#import objectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 
 def homepage(request):
     return render(request,"carelink/index.html")
@@ -74,8 +80,8 @@ def dashboard(request):
             }
     return render(request,"carelink/dashboard.html",context)
 
-#messages
 
+#messages 
 @login_required
 @csrf_exempt
 def send_message(request):
@@ -83,8 +89,7 @@ def send_message(request):
         data = json.loads(request.body)
         content = data['content']  # Assuming content is sent in the request POST data
         sender = request.user
-        receiver_id = int(data['receiver_id'])  # Assuming receiver_id is sent in the request POST data
-        print(data,content)      
+        receiver_id = int(data['receiver_id'])  # Assuming receiver_id is sent in the request POST data     
         receiver = User.objects.get(pk=receiver_id)
         
         # Create a new message instance
@@ -100,10 +105,8 @@ def send_message(request):
 def check_messages(request):
     if request.method == 'POST':
         receiver_id = json.loads(request.body)['receiver']
-        print(receiver_id)
         # Get messages for the current user
         user_messages = Message.objects.filter((Q(sender=request.user) & Q(receiver_id=receiver_id)) | (Q(sender_id=receiver_id) & Q(receiver=request.user))).order_by('timestamp') 
-        print(user_messages)
         # Serialize messages data
         messages_data = [{'content': message.content, 'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S'),'sender':message.sender.pk == request.user.pk } for message in user_messages]
         
@@ -113,19 +116,108 @@ def check_messages(request):
         # Return an error response if the request method is not GET
         return JsonResponse({'status': 'error', 'message': 'Only GET requests are allowed'})
 
+@login_required
+@csrf_exempt
+def patients(request):
+    # Build the file path
+    file_path = os.path.join(settings.BASE_DIR, 'data', 'patients.csv')
+    # Open and read the CSV file
+    data = []
+    with open(file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            data.append(row)
+    # Pass the data to the template or return it as a JSON response
+    context = {'patients': data}
+    return render(request,"carelink/patients.html",context)
+
+@login_required
+@csrf_exempt
+def retrieve_history(request):
+    if request.method == 'POST':
+        patient_number = json.loads(request.body)['patientNumber']
+
+    file_path = os.path.join(settings.BASE_DIR,'data','patient-history.csv')
+    history = []
+    with open(file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            if int(row['patient_number']) == patient_number:
+                history.append(row)
+    file_path = os.path.join(settings.BASE_DIR, 'data', 'patients.csv')
+    # Open and read the CSV file
+    personalInfo = []
+    with open(file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            if(int(row['patient_number']) == patient_number):
+                personalInfo.append(row)
+
+    return JsonResponse({'history':history,'info':personalInfo})
+
+@login_required
+@csrf_exempt
+def search(request):
+    if request.method == 'POST':
+        search_phrase = json.loads(request.body)['searchPhrase']
+    
+        file_path = os.path.join(settings.BASE_DIR, 'data', 'patients.csv')
+        # Open and read the CSV file
+        results = []
+        with open(file_path, 'r') as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+            for row in csv_reader:
+                if(search_phrase in row['patient_number'].lower() or search_phrase.lower() in row['name'].lower()):
+                    results.append(row)
+            if len(results) == 0:
+                results.append('Not found')
+
+        return JsonResponse({'results':results})
+
+@login_required
+@csrf_exempt
+def send_sms_message(request):
+    if request.method == 'POST':
+        #get the details: 
+        details = json.loads(request.body)
+        """
+        {
+        name,
+        patient_number,
+        refferalDoctor,
+        waiting number
+        }
+        """
+        PHONE_NUMBER = os.getenv('PHONE_NUMBER')
+        TWILIO_ACCOUNT_SID = os.getenv('ACC_SID')
+        TWILIO_AUTH_TOKEN = os.getenv('AUTH_TOKEN')
+        TWILIO_MESSAGE_SERVICE_SID = os.getenv('MESSAGING_SERVICE')
+
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        print(client, TWILIO_AUTH_TOKEN)
+
+ # Extract the values from the details object
+        name = details.get('name')
+        patient_number = details.get('patient_number')
+        referral_doctor = details.get('refferalDoctor')
+        waiting_number = details.get('waiting_number')
+        hospital = details.get('hospital')
+
+        # Prepare the referral message
+        referral_message = f"{name}, upon evaluating your condition, we reffer you to {referral_doctor} of {hospital} for further care. The hospital has specialists who can better manage your condition. Please take your medical records with you, your waiting number is {waiting_number}."
+        message = client.messages.create(
+        messaging_service_sid=TWILIO_MESSAGE_SERVICE_SID,
+        body=referral_message,
+        to='+254702716555'
+)
+        return JsonResponse({'message':'message successfully sent to patient'})
+
+def service_providers(request):
+    return render(request,"carelink/service-providers.html")
 
 
 
 @login_required
-# def profile(request):
-#     user = request.user
-#     try:
-#         profile = user.user_profile
-#     except ObjectDoesNotExist:
-#         profile = None
-
-#     return render(request, 'carelink/profile.html', {'user': user, 'profile': profile})
-
 def profile(request):
     file_path=os.path.join(settings.BASE_DIR,'media')
     user = request.user
