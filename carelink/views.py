@@ -176,6 +176,66 @@ def search(request):
 
 @login_required
 @csrf_exempt
+def search_notifications(request):
+    if request.method == 'POST':
+        search_phrase = json.loads(request.body)['searchPhrase']
+    
+        file_path = os.path.join(settings.BASE_DIR, 'data', 'notifications.csv')
+        # Open and read the CSV file
+        results = []
+        with open(file_path, 'r') as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+            for row in csv_reader:
+                if((search_phrase in row['patient_number'].lower() or search_phrase.lower() in row['name'].lower())and row['pk']==request.user.pk):
+                    results.append(row)
+            if len(results) == 0:
+                results.append('Not found')
+
+        return JsonResponse({'results':results})
+
+@login_required
+@csrf_exempt
+def search_service_provider(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data,data['hospital'],data['specialty'])
+        search_phrase = data['searchPhrase']
+        hospital=data['hospital']
+        specialty = data['specialty']
+
+        file_path = os.path.join(settings.BASE_DIR, 'data', 'doctors.csv')
+        # Open and read the CSV file
+        results = []
+        with open(file_path, 'r') as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+            if hospital != '' and specialty != '':
+                for row in csv_reader:
+                    if((search_phrase in row['doctor_number'] or search_phrase.lower() in row['doctor_name'].lower())and row['hospital_name'] == hospital and row['specialty']==specialty):
+                        results.append(row)
+                if len(results) == 0:
+                    results.append('Not found')
+            elif hospital == '':
+                for row in csv_reader:
+                    if((search_phrase in row['doctor_number'] or search_phrase.lower() in row['doctor_name'].lower())and row['specialty']==specialty):
+                        results.append(row)
+                if len(results) == 0:
+                    results.append('Not found')
+            elif specialty == '':
+                for row in csv_reader:
+                    if((search_phrase in row['doctor_number'] or search_phrase.lower() in row['doctor_name'].lower())and row['hospital_name'] == hospital):
+                        results.append(row)
+                if len(results) == 0:
+                    results.append('Not found')
+            else:
+                for row in csv_reader:
+                    if((search_phrase in row['doctor_number'] or search_phrase.lower() in row['doctor_name'].lower())):#no filters selected
+                        results.append(row)
+                if len(results) == 0:
+                    results.append('Not found')
+        return JsonResponse({'results':results})
+
+@login_required
+@csrf_exempt
 def send_sms_message(request):
     if request.method == 'POST':
         #get the details: 
@@ -210,10 +270,36 @@ def send_sms_message(request):
         body=referral_message,
         to='+254702716555'
 )
+        print(message.sid)
         return JsonResponse({'message':'message successfully sent to patient'})
-
+@login_required
+@csrf_exempt
 def service_providers(request):
-    return render(request,"carelink/service-providers.html")
+    curr_user_pk = int(request.user.pk)
+    print(curr_user_pk)
+    file_path = os.path.join(settings.BASE_DIR, 'data', 'notifications.csv')
+    # Open and read the CSV file
+    notifications = []
+    with open(file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            if(curr_user_pk == int(row['pk'])):
+                print(row)
+                notifications.append(row)
+        if len(notifications) == 0:
+            notifications.append('No notifications for now')
+    file_path = os.path.join(settings.BASE_DIR, 'data', 'doctors.csv')
+    hospitals = set()
+    specialty = set()
+    with open(file_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            hospitals.add(row['hospital_name'])
+            specialty.add(row['specialty'])
+        if len(hospitals) == 0:
+            hospitals.add('Not hospitals in the DATASET')
+    print(hospitals)
+    return render(request,"carelink/service-providers.html",{"notifications":notifications,"hospitals":hospitals,"specialties":specialty})
 
 
 
@@ -224,8 +310,9 @@ def profile(request):
 
     try:
         Profile = User_profile.objects.filter(user=user)
+        print(Profile.__dict__)
     except ObjectDoesNotExist:
-        Profile = None
+        Profile = None 
 
     return render(request, 'carelink/profile.html', {'user': user, 'Profile': Profile})
 

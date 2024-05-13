@@ -109,8 +109,6 @@
                     {% csrf_token %}
                    
                     {% for profile in Profile %} 
-                    <p>{{profile}}</p>
-
                     <div class="image-section">
                     
                         <img src="{% static 'profile_pics/user.PNG' %}" alt="Profile Picture" class="profile-image img-fluid mb-2">
@@ -118,8 +116,7 @@
                             <i class="fa-sharp fa-regular fa-eye"></i> View </button> 
                         
                         <button class="btn btn-primary mb-2 custom-btn upload-picture">Upload </button> 
-                    </div>
-                
+                    </div> 
                     <div class="form">
                     <div class="form-group">
                         <label for="username">Username:</label>

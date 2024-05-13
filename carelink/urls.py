@@ -17,6 +17,8 @@ urlpatterns = [
     path('service_providers/',views.service_providers,name="service_providers"),
     path('retrieve_history/',views.retrieve_history,name="retrieve_history"),
     path('search/',views.search,name="search"),
-    path('send_sms/',views.send_sms_message,name="send_sms_message")
+    path('send_sms/',views.send_sms_message,name="send_sms_message"),
+    path('search_notifications/',views.search_notifications,name="search_notifications"),
+    path('search_service_provider/',views.search_service_provider,name="search_provider"),
 ]
 
