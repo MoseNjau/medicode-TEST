@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title></title>
+    <title>Carelink| View Patients</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{%static 'css/style.css'%}" rel="stylesheet">
@@ -14,6 +14,9 @@
   </head>
   <body>
     <style>
+html {
+  scroll-behaviour:smooth;
+}
       .view-button {
   --primary-color: #583881;
   --secondary-color: #fff;
@@ -32,6 +35,7 @@
   gap: 0.6em;
   font-weight: bold;
 }
+
 .view-button .arrow-wrapper {
   display: flex;
   justify-content: center;
@@ -72,7 +76,8 @@
 .view-button:hover .arrow:before {
   right: 0;
 }
-.patient-details {
+
+.provider-details {
   width: 300px;
   height: fit-content;
   background-color: rgb(255, 255, 255);
@@ -86,16 +91,26 @@
   position: relative;
   overflow: hidden;
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.062);
+  margin-top:1rem;
+  margin-bottom:1rem;
 }
-.patient-wrapper{
+
+.provider-list i, .provider-action i {
+  font-size:30px;
+  color:#DB7461;
+}
+
+.provider-wrapper{
   position:relative;
   display:flex;
   height:90vh;
 }
-.patient-list{
+.provider-list{
+  height:95%;
+  overflow-y:scroll;
   flex:1;
 }
-.patient-action{
+.provider-action{
   flex:2;
   border-left:1px solid gray;
   padding:0 2rem;
@@ -103,12 +118,14 @@
 }
 span{
   font-weight:bold;
+  color:#583881;
 }
 select {
     /* Remove default styles */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+
   border: none;
   margin: 0;
   font-family: inherit;
@@ -186,6 +203,33 @@ input[type="text"]:focus {
   scrollbar-width: thin; /* Width of the scrollbar */
   scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
 }
+.hidden{
+  visibility:hidden;
+  flex:0;
+}
+.results{
+  display: flex;
+  width:80%;
+  margin-top: 1rem;
+  justify-items: center;
+  align-items: center;
+  background: #fff;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.062);
+  padding:5px 10px;
+  border-radius: 10px;
+}
+.results div:nth-child(1){
+  flex:0.5;
+  display: flex;
+  justify-items: center;
+}
+.results div:nth-child(2){
+  flex:2
+}
+.results i{
+  font-size: 60px;
+  margin-inline: auto;
+}
     </style>
   <!--nav-->
  <nav class="navbar navbar-expand-lg">
@@ -215,112 +259,161 @@ input[type="text"]:focus {
             </ul>
         </div>
     </nav>
-  <section class="patient-wrapper container">
-  <div class="mt-2 patient-list">
-    <h3>Patient List</h3>
-    <input type="text" class="my-2" placeholder="search patient" id="doctor" required/>
+  <section class="provider-wrapper container">
+  <div class="mt-2 provider-list">
+    <h3>Notifications:</h3>
+    <input type="text" class="my-2" placeholder="search notification" id="provider-search" required/>
     <i class="fas fa-search"></i>
     <!--card with patients data-->
-    <div class="patient-list">
+    <div class="provider-list">
+      {%for notification in notifications%}
     <!--patient card-->
-    <div class="patient-details" id="1">
+    <div class="provider-details" id="1">
       <!--icon-->
       <i class="fas fa-user-injured"></i>
       <!--patient number-->
-      <p class="patient-number">#152/12/2/2024</p>
+      <p class="provider-number">{{notification.patient_number}}</p>
       <!--name-->
-      <p>Name: <span>Patient name</span></p>
+      <p>Name: <span>{{notification.patient_name}}</span></p>
+      <p>Refferal Reason: <span>{{notification.reason}}</span></p>
+      <p>Time: <span>{{notification.time}}</span></p>
+      <p>Urgency: <span>{{notification.urgency}}</span></p>
       <!--action button-->
-      <button class='view-button'>
-      view
+      <button class='view-button bg-danger' onclick="">
+       Acknowledge
       <div class="arrow-wrapper">
         <div class="arrow"></div>
       </div>
       </button>
     </div>
+    {%endfor%} 
+
     </div>
   </div>
-  <!--patient action section-->
-  <div class="patient-action mt-2">
-    <h3>Perfom Action</h3>
-    <!--patient information-->
-      <!--condition-->
-      <p class="patient-condition">Condition: <span>patient-condition</span></p>
-      <!--personal information-->
-      <p>Patient information:</p>
-      <ul class="patient-info">
-        <li>first name : <span>First name</span></li>
-        <li>Last name: <span>Last Name</span></li>
-        <li>Contact: <span>Contact info</span></li>
-      </ul>
-      
-      <p>Record History:</p>
-      <!--Refferal History-->
-      <table class="mb-2">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Referring Provider</th>
-      <th>Reason for Referral</th>
-      <th>Specialty</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>05/01/2024</td>
-      <td>Dr. Jane Smith</td>
-      <td>Chronic back pain</td>
-      <td>Orthopedics</td>
-      <td>Completed</td>
-    </tr>
-    <tr>
-      <td>03/15/2024</td>
-      <td>Dr. Michael Johnson</td>
-      <td>Suspected thyroid disorder</td>
-      <td>Endocrinology</td>
-      <td>Pending</td>
-    </tr>
-    <tr>
-      <td>01/20/2024</td>
-      <td>Dr. Sarah Lee</td>
-      <td>Abnormal mammogram</td>
-      <td>Oncology</td>
-      <td>Completed</td>
-    </tr>
-    <tr>
-      <td>11/10/2023</td>
-      <td>Dr. David Brown</td>
-      <td>Severe headaches</td>
-      <td>Neurology</td>
-      <td>Completed</td>
-    </tr>
-  </tbody>
-</table>
-<div>
-      <label for="hospital">to reffer to:</label>
-      <select id="hospital">
-        <option value="option1">Hospital 1</option>
-        <option value="option2">Hospital 2</option>
-        <option value="option3">Hospital 3</option>
-        <option value="option4">Hospital 4</option>
-      </select>
-
-      <label for="speciality">speciality:</label>
-      <select id="speciality">
-        <option value="option1">Orthopedics</option>
-        <option value="option2">Oncology</option>
-        <option value="option3">Neurology</option>
-        <option value="option4">Endocrinology</option>
-      </select>
-      <input type="text" placeholder="Health worker to reffer to" id="doctor" required/>
-      <input type="text" class="mt-2" placeholder="Reason for refferal" id="doctor" required/> 
-</div>
-      <button class="view-button mt-2">
-        Reffer
-      </button>
+  <!--provider action section-->
+  <div class="provider-action mt-2">
+    <h3>Service Providers:</h3>
+    <input type="text" class="my-2" style="width:80%" name="search-provider" placeholder="Enter service provider name" id="search-provider">
+    <h4>Filter by:</h4>
+    <label for="hospital">select hospital</label>
+    <br>
+    <select id="hospital">
+      <option value='option 1'></option>
+      {%for hospital in hospitals%}
+      <option value='{{hospital}}'>{{hospital}}</option>
+      {%endfor%}
+    </select>
+    <br>
+    <label for="specialty">select specialty</label>
+    <br>
+    <select id="specialty">
+      <option value="option1"></option>
+      {%for specialty in specialties%}
+      <option value='{{specialty}}'>{{specialty}}</option>
+      {%endfor%}
+    </select>
+    <div id="results_service_providers">
+      <div class="results">
+        <div>
+          <i class="fas fa-user-nurse"></i>
+        </div>
+        <div>
+        <!--provider number-->
+        <p class="provider-number">1243</p>
+        <!--name-->
+        <p>Name: <span>Doctors name</span></p>
+        <p>Refferal Reason: <span>refferal reason</span></p>
+        </div>
+      </div>
+    </div>
+   
   </div>
 </section>
+  <script>
+// Function to retrieve service providers based on search input
+function searchServiceProviders() {
+    // Get the search input value
+    const searchInput = document.getElementById('search-provider').value.trim();
 
+    // Get the selected hospital
+    const selectedHospital = document.getElementById('hospital').options[document.getElementById('hospital').selectedIndex].textContent.trim();
+
+    // Get the selected specialty
+    const selectedSpecialty = document.getElementById('specialty').options[document.getElementById('specialty').selectedIndex].textContent.trim();
+
+    // Create the request payload
+    const requestData = {
+        searchPhrase: searchInput,
+        hospital: selectedHospital,
+        specialty: selectedSpecialty
+    };
+
+    // Create a new XMLHttpRequest object
+    const xhr = new XMLHttpRequest();
+
+    // Open the request
+    xhr.open('POST', '/search_service_provider/', true);
+
+    // Set the request header
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // Define the callback function for handling the response
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Request successful
+                const response = JSON.parse(xhr.responseText);
+                displayServiceProviders(response.results);
+            } else {
+                // Request failed
+                console.error('Error:', xhr.statusText);
+            }
+        }
+    };
+
+    // Send the request with JSON payload
+    xhr.send(JSON.stringify(requestData));
+}
+
+// Function to display service providers
+function displayServiceProviders(results) {
+    const resultsContainer = document.getElementById('results_service_providers');
+
+    // Clear previous results
+    resultsContainer.innerHTML = '';
+
+    // Check if any results are returned
+    if (results.length === 0) {
+        resultsContainer.innerHTML = '<p>No results found</p>';
+        return;
+    }
+
+    // Loop through the results and create HTML elements for each service provider
+    results.forEach(provider => {
+        const providerCard = `
+            <div class="results">
+                <div>
+                    <i class="fas fa-user-nurse"></i>
+                </div>
+                <div>
+                    <p class="provider-number">${provider.doctor_number}</p>
+                    <p>Name: <span>${provider.doctor_name}</span></p>
+                    <p>Referral Reason: <span>${provider.contact_number}</span></p>
+                </div>
+            </div>
+        `;
+        resultsContainer.insertAdjacentHTML('beforeend', providerCard);
+    });
+}
+
+// Attach event listener to the search input field
+document.getElementById('search-provider').addEventListener('input', searchServiceProviders);
+
+// Attach event listener to hospital and specialty select elements to trigger search on change
+document.getElementById('hospital').addEventListener('change', searchServiceProviders);
+document.getElementById('specialty').addEventListener('change', searchServiceProviders);
+
+
+</script>
   </body>
 </html>

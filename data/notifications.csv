@@ -1,0 +1,12 @@
+pk,urgency,patient_number,reason,patient_name,time,queue_number
+1,high,12345,emergency appendectomy,John Doe,2024-05-12 08:00,1
+2,normal,54321,annual checkup,Jane Smith,2024-05-12 08:15,2
+3,high,98765,severe allergic reaction,Michael Johnson,2024-05-12 08:30,3
+4,normal,24680,flu symptoms,Amy Brown,2024-05-12 08:45,4
+5,high,13579,compound fracture,Robert Williams,2024-05-12 09:00,5
+6,normal,97531,pediatric vaccination,Emily Davis,2024-05-12 09:15,6
+7,high,24680,heart attack,David Wilson,2024-05-12 09:30,7
+8,normal,86420,eye infection,Sarah Taylor,2024-05-12 09:45,8
+9,high,64208,head trauma,James Martinez,2024-05-12 10:00,9
+10,normal,35791,physical therapy,Emma Anderson,2024-05-12 10:15,10
+11,high,11111,stroke symptoms,Olivia Garcia,2024-05-12 10:30,11
