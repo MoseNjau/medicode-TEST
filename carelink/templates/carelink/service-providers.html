@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
     <!--bootstrap-->
     <link rel="stylesheet" href="{%static 'css/bootstrap-chat.min.css'%}" />
-
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script> 
   </head>
   <body>
     <style>
@@ -230,29 +231,44 @@ input[type="text"]:focus {
   font-size: 60px;
   margin-inline: auto;
 }
+li a{
+  color:#583881;
+}
+#map{
+  height:300px;
+}
+.red{
+  color:red;
+}
+.yellow{
+        color:yellow;
+      }
+.green{
+  color:green;
+}
     </style>
   <!--nav-->
- <nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg container">
         <img src="{%static 'Login hero.png'%}" alt="logo" width="30">
-        <a class="navbar-brand carelink mx-2" href="#"> <b>CARELINK</b></a>
+        <a class="navbar-brand carelink mx-2" href={%url "dashboard"%}> <b>CARELINK</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">my profile <i class="fas fa-user"></i></a>
+                  <a class="nav-link carelink" style="justify-self: flex-end;" href={% url "profile"%}>my profile <i class="fas fa-user"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">patients <i class="fas fa-wheelchair"></i></a>
+                  <a class="nav-link carelink" style="justify-self: flex-end;" href={%url "patients"%}>patients <i class="fas fa-wheelchair"></i></a>
                 </li> 
                 <li class="nav-item">
-                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">service providers <i class="fas fa-user-nurse"></i></a>
+                  <a class="nav-link carelink" style="justify-self: flex-end;" href={%url "service_providers"%}>service providers <i class="fas fa-user-nurse"></i></a>
                 </li>
             </ul>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mx-10">
                 <li class="nav-item">
                     <a class="nav-link carelink" style="justify-self: flex-end;" href="{% url 'logout' %}">Logout <i class="fas fa-sign-out-alt"></i></a>
                 </li>
@@ -277,9 +293,9 @@ input[type="text"]:focus {
       <p>Name: <span>{{notification.patient_name}}</span></p>
       <p>Refferal Reason: <span>{{notification.reason}}</span></p>
       <p>Time: <span>{{notification.time}}</span></p>
-      <p>Urgency: <span>{{notification.urgency}}</span></p>
+      <p>Urgency: <span class="{{notification.urgency_color}}">{{notification.urgency}}</span></p>
       <!--action button-->
-      <button class='view-button bg-danger' onclick="">
+      <button class='view-button bg-danger' onclick="alert(`patient {{notification.patient_name}} acknowledged`)">
        Acknowledge
       <div class="arrow-wrapper">
         <div class="arrow"></div>
@@ -293,6 +309,7 @@ input[type="text"]:focus {
   <!--provider action section-->
   <div class="provider-action mt-2">
     <h3>Service Providers:</h3>
+    <div id="map"></div>
     <input type="text" class="my-2" style="width:80%" name="search-provider" placeholder="Enter service provider name" id="search-provider">
     <h4>Filter by:</h4>
     <label for="hospital">select hospital</label>
@@ -300,7 +317,7 @@ input[type="text"]:focus {
     <select id="hospital">
       <option value='option 1'></option>
       {%for hospital in hospitals%}
-      <option value='{{hospital}}'>{{hospital}}</option>
+      <option value='{{hospital.name}}' data-lat='{{hospital.lat}}' data-long='{{hospital.long}}' data-level='{{hospital.level}}'>{{hospital.name}}</option>
       {%endfor%}
     </select>
     <br>
@@ -398,14 +415,54 @@ function displayServiceProviders(results) {
                 <div>
                     <p class="provider-number">${provider.doctor_number}</p>
                     <p>Name: <span>${provider.doctor_name}</span></p>
-                    <p>Referral Reason: <span>${provider.contact_number}</span></p>
+                    <p>Providers contact: <span>${provider.contact_number}</span></p>
                 </div>
             </div>
         `;
         resultsContainer.insertAdjacentHTML('beforeend', providerCard);
     });
 }
+var map, marker;
 
+        function updateMap(g_lat, g_long,value,level) {
+            // If the map and marker haven't been initialized, initialize them
+            if (!map) {
+                map = L.map('map').setView([g_lat, g_long], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+            }
+
+            // If the marker hasn't been initialized, initialize it
+            if (!marker) {
+                marker = L.marker([g_lat, g_long]).addTo(map);
+              marker.bindPopup(`<b>${value}</b>`).openPopup();
+            } else {
+                // Otherwise, update the marker's position and open the popup
+                marker.setLatLng([g_lat, g_long]).openPopup();
+              marker.bindPopup(`<b>${value}</b><br><p>${level}</p>`).openPopup();
+            }
+
+            // Update the map view
+            map.setView([g_lat, g_long], 13);
+        }
+updateMap(42.3601, -71.0589,'Select a hospital','')
+
+// Get the <select> element
+const selectElement = document.getElementById('hospital');
+
+// Add an event listener for the 'change' event
+selectElement.addEventListener('change', function() {
+  // Get the selected option
+  const selectedOption = this.options[this.selectedIndex];
+  const value = selectedOption.value
+  // Get the data-lat and data-long attributes
+  const lat = selectedOption.dataset.lat;
+  const long = selectedOption.dataset.long;
+  const level = selectedOption.dataset.level;
+  
+  updateMap(lat,long,`${value}`,`${level}`)
+});
 // Attach event listener to the search input field
 document.getElementById('search-provider').addEventListener('input', searchServiceProviders);
 

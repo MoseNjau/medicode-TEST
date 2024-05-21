@@ -1,21 +1,51 @@
 doctor_name,specialty,email,contact_number,hospital_name,doctor_number
-Njeri Muthoni,Cardiologist,njeri@email.co.ke,+254712345678,Aga Khan University Hospital,1144
-Kamau Wanjiku,Dermatologist,kamau@email.co.ke,+254723456789,Nairobi Hospital,1216
-Omondi Achieng,Orthopedic Surgeon,omondi@email.co.ke,+254734567890,Kenyatta National Hospital,1841
-Akinyi Okello,Pediatrician,akinyi@email.co.ke,+254745678901,Mater Hospital,2358
-Mutuku Musyoka,Psychiatrist,mutuku@email.co.ke,+254756789012,MP Shah Hospital,2974
-Adhiambo Owino,ENT Specialist,adhiambo@email.co.ke,+254767890123,Gertrude's Children's Hospital,3669
-Kangangi Muriuki,Neurologist,kangangi@email.co.ke,+254778901234,Avenue Hospital,4221
-Akoth Otieno,Ophthalmologist,akoth@email.co.ke,+254789012345,AIC Kijabe Hospital,5912
-Wambua Kyalo,Obstetrician-Gynecologist,wambua@email.co.ke,+254790123456,Karen Hospital,6550
-Auma Odongo,Endocrinologist,auma@email.co.ke,+254701234567,Coptic Hospital,7198
-Wafula Wekesa,General Surgeon,wafula@email.co.ke,+254712345670,Kisumu County Hospital,8236
-Awino Odhiambo,Anesthesiologist,awino@email.co.ke,+254723456701,Coast General Hospital,8882
-Kiprono Kosgei,Radiologist,kiprono@email.co.ke,+254734567012,Moi Teaching and Referral Hospital,9220
-Achieng Ouma,Urologist,achieng@email.co.ke,+254745678923,Tenwek Hospital,2412
-Mutua Nzioka,Pathologist,mutua@email.co.ke,+254756789034,Nakuru Level 5 Hospital,1657
-Akeyo Onyango,Family Physician,akeyo@email.co.ke,+254767890145,Mombasa Hospital,2185
-Muriithi Mwangi,Orthodontist,muriithi@email.co.ke,+254778901256,Meridian Equator Hospital,3849
-Awuor Ochieng,Cardiologist,awuor@email.co.ke,+254789012367,PCEA Kikuyu Hospital,6129
-Wanjala Wafula,Dermatologist,wanjala@email.co.ke,+254790123478,Aga Khan Hospital, Mombasa,7542
-Atieno Oduor,Neurosurgeon,atieno@email.co.ke,+254701234589,Busia County Referral Hospital,9835
+Njeri Muthoni,Cardiologist,njeri@email.co.ke,+254712345678,LAMU DISTRICT HOSPITAL,1
+Kamau Wanjiku,Dermatologist,kamau@email.co.ke,+254723456789,LAMU DISTRICT HOSPITAL,2
+Omondi Achieng,Orthopedic Surgeon,omondi@email.co.ke,+254734567890,KIUNGA HEALTH CENTRE,3
+Akinyi Okello,Pediatrician,akinyi@email.co.ke,+254745678901,KIUNGA HEALTH CENTRE,4
+Mutuku Musyoka,Psychiatrist,mutuku@email.co.ke,+254756789012,WITU HEALTH CENTRE,5
+Adhiambo Owino,ENT Specialist,adhiambo@email.co.ke,+254767890123,WITU HEALTH CENTRE,6
+Kangangi Muriuki,Neurologist,kangangi@email.co.ke,+254778901234,MPEKETONI HEALTH CENTRE,7
+Akoth Otieno,Ophthalmologist,akoth@email.co.ke,+254789012345,MPEKETONI HEALTH CENTRE,8
+Wambua Kyalo,Obstetrician-Gynecologist,wambua@email.co.ke,+254790123456,MOKOWE HEALTH CENTRE,9
+Auma Odongo,Endocrinologist,auma@email.co.ke,+254701234567,MOKOWE HEALTH CENTRE,10
+Wafula Wekesa,General Surgeon,wafula@email.co.ke,+254712345670,BARGONI HEALTH CENTRE,11
+Awino Odhiambo,Anesthesiologist,awino@email.co.ke,+254723456701,BARGONI HEALTH CENTRE,12
+Kiprono Kosgei,Radiologist,kiprono@email.co.ke,+254734567012,FAZA HEALTH CENTRE,13
+Achieng Ouma,Urologist,achieng@email.co.ke,+254745678923,FAZA HEALTH CENTRE,14
+Mutua Nzioka,Pathologist,mutua@email.co.ke,+254756789034,HINDI MAGOGONI DISP,15
+Akeyo Onyango,Family Physician,akeyo@email.co.ke,+254767890145,HINDI MAGOGONI DISP,16
+Muriithi Mwangi,Orthodontist,muriithi@email.co.ke,+254778901256,HINDI PRISON DISP,17
+Awuor Ochieng,Cardiologist,awuor@email.co.ke,+254789012367,HINDI PRISON DISP,18
+Wanjala Wafula,Dermatologist,wanjala@email.co.ke,+254790123478,HONGWE CATHOLIC HEALTH CENTRE,19
+Atieno Oduor,Neurosurgeon,atieno@email.co.ke,+254701234589,HONGWE CATHOLIC HEALTH CENTRE,20
+Njoroge Maina,Gastroenterologist,njoroge@email.co.ke,+254712345601,ICHUNDWA DISP,21
+Wangari Karanja,Nephrologist,wangari@email.co.ke,+254723456712,ICHUNDWA DISP,22
+Ongeri Oluoch,Pulmonologist,ongeri@email.co.ke,+254734567823,KIWAYU DISP,23
+Awino Onyango,Oncologist,awino@email.co.ke,+254745678934,KIWAYU DISP,24
+Makau Mutua,Rheumatologist,makau@email.co.ke,+254756789045,KIZINGITINI DISP,25
+Atieno Odongo,Hematologist,atieno@email.co.ke,+254767890156,KIZINGITINI DISP,26
+Wafula Simiyu,Infectious Disease Specialist,wafula@email.co.ke,+254778901267,LAKE KENYATTA HEALTH CENTRE,27
+Awuor Odhiambo,Intensivist,awuor@email.co.ke,+254789012378,LAKE KENYATTA HEALTH CENTRE,28
+Onganga Opiyo,Sports Medicine Physician,onganga@email.co.ke,+254790123489,MANGAI DISP,29
+Achieng Oduor,Geriatric Medicine Specialist,achieng@email.co.ke,+254701234502,MANGAI DISP,30
+Mutiso Musau,Palliative Care Physician,mutiso@email.co.ke,+254712345613,MATONDONI DISP,31
+Awino Onyiego,Emergency Medicine Specialist,awino@email.co.ke,+254723456724,MATONDONI DISP,32
+Muthama Mutuku,Critical Care Specialist,muthama@email.co.ke,+254734567835,MKOKONI DISP,33
+Atieno Ochieng,Sleep Medicine Specialist,atieno@email.co.ke,+254745678946,MKOKONI DISP,34
+Wekesa Wafula,Addiction Medicine Specialist,wekesa@email.co.ke,+254756789057,MKUNUBI DISP,35
+Awuor Omondi,Reproductive Endocrinologist,awuor@email.co.ke,+254767890168,MKUNUBI DISP,36
+Ouma Onyango,Occupational Medicine Specialist,ouma@email.co.ke,+254778901279,MLANGUMU DISP,37
+Awino Odongo,Hospitalist,awino@email.co.ke,+254789012382,MLANGUMU DISP,38
+Mutuku Kyalo,Transplant Hepatologist,mutuku@email.co.ke,+254790123493,MOA (WEMA) MISSION DISP,39
+Atieno Odhiambo,Regenerative Medicine Specialist,atieno@email.co.ke,+254701234504,MOA (WEMA) MISSION DISP,40
+Wafula Wekesa,Clinical Geneticist,wafula@email.co.ke,+254712345715,N.Y.S DISP (BARGONI),41
+Awuor Onyango,Neonatologist,awuor@email.co.ke,+254723456826,N.Y.S DISP (BARGONI),42
+Odhiambo Onyango,Nuclear Medicine Specialist,odhiambo@email.co.ke,+254734567937,NDAU DISP,43
+Awino Omondi,Aerospace Medicine Specialist,awino@email.co.ke,+254745678048,NDAU DISP,44
+Wanjala Wafula,Travel Medicine Specialist,wanjala@email.co.ke,+254756789159,PANDA NGUO DISP,45
+Atieno Oduor,Undersea and Hyperbaric Medicine Specialist,atieno@email.co.ke,+254767890262,PANDA NGUO DISP,46
+Njoroge Maina,Medical Biochemical Geneticist,njoroge@email.co.ke,+254778901373,PATTE DISP,47
+Wangari Karanja,Clinical Molecular Geneticist,wangari@email.co.ke,+254789012484,PATTE DISP,48
+Ongeri Oluoch,Medical Toxicologist,ongeri@email.co
+Atieno Oduor,Neurosurgeon,atieno@email.co.ke,+254701234589,NKUBU DISP,9835

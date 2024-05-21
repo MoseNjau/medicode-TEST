@@ -5,14 +5,15 @@
     <title>Carelink| View Patients</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{%static 'css/style.css'%}" rel="stylesheet">
     <!--fontawesome for icons-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
     <!--bootstrap-->
     <link rel="stylesheet" href="{%static 'css/bootstrap-chat.min.css'%}" />
+    <link href="{%static 'css/style.css'%}" rel="stylesheet">
 
   </head>
   <body>
+
     <style>
 html {
   scroll-behaviour:smooth;
@@ -209,27 +210,27 @@ input[type="text"]:focus {
 }
     </style>
   <!--nav-->
- <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg container">
         <img src="{%static 'Login hero.png'%}" alt="logo" width="30">
-        <a class="navbar-brand carelink mx-2" href="#"> <b>CARELINK</b></a>
+        <a class="navbar-brand carelink mx-2" href={%url "dashboard"%}> <b>CARELINK</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">my profile <i class="fas fa-user"></i></a>
+                  <a class="nav-link carelink" style="justify-self: flex-end;" href={% url "profile"%}>my profile <i class="fas fa-user"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">patients <i class="fas fa-wheelchair"></i></a>
+                  <a class="nav-link carelink" style="justify-self: flex-end;" href={%url "patients"%}>patients <i class="fas fa-wheelchair"></i></a>
                 </li> 
                 <li class="nav-item">
-                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">service providers <i class="fas fa-user-nurse"></i></a>
+                  <a class="nav-link carelink" style="justify-self: flex-end;" href={%url "service_providers"%}>service providers <i class="fas fa-user-nurse"></i></a>
                 </li>
             </ul>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mx-10">
                 <li class="nav-item">
                     <a class="nav-link carelink" style="justify-self: flex-end;" href="{% url 'logout' %}">Logout <i class="fas fa-sign-out-alt"></i></a>
                 </li>
@@ -272,8 +273,8 @@ input[type="text"]:focus {
   <div class="patient-action mt-2 hidden">
     <h3><i class="fas fa-exclamation-circle"></i> Perfom Action</h3>
     <!--patient information-->
-      <!--condition-->
-      <p class="patient-condition">Condition: <span>patient-condition</span></p>
+      <!-- <!--condition--> -->
+      <!-- <p class="patient-condition">Condition: <span>patient-condition</span></p> -->
       <!--personal information-->
       <p>Patient information:</p>
       <ul class="patient-info">
@@ -295,20 +296,21 @@ input[type="text"]:focus {
 <div>
       <label for="hospital">to reffer to:</label>
       <select id="hospital">
-        <option value="option1">Hospital 1</option>
-        <option value="option2">Hospital 2</option>
-        <option value="option3">Hospital 3</option>
-        <option value="option4">Hospital 4</option>
+        {%for hospital in hospitals%}
+        <option value="{{hospital}}">{{hospital}}</option>
+        {%endfor%}
       </select>
 
       <label for="speciality">speciality:</label>
       <select id="speciality">
-        <option value="option1">Orthopedics</option>
-        <option value="option2">Oncology</option>
-        <option value="option3">Neurology</option>
-        <option value="option4">Endocrinology</option>
+        {%for speciality in speciality%} 
+        <option value="{{speciality}}">{{speciality}}</option>
+        {%endfor%}
       </select>
-      <input type="text" placeholder="Health worker to reffer to" id="refferalDoctor" required/>
+
+      <label for="doctors">Choose doctor:</label>
+      <select id="doctors">
+      </select>
       <input type="text" class="mt-2" placeholder="Reason for refferal" id="refferalReason" required/> 
 </div>
       <button class="view-button mt-2" onclick = 'sendSMSMessage()'>
@@ -323,7 +325,9 @@ input[type="text"]:focus {
     var patientSearchInput = document.querySelector('#patient-search') 
     var patientDetails = document.querySelectorAll('.patient-list')[1]
     var patientAction = document.querySelectorAll('.patient-action')
-     
+    var doctors = document.querySelector('#doctors') 
+    var hospitals = document.querySelector('#hospitals')
+    var speciality = document.querySelector('#speciality')
     //load selected patient details 
     var loadPatientDetails = (number) =>{
       patientAction[1].classList.remove('hidden')
@@ -447,7 +451,8 @@ function sendSMSMessage() {
   // Get the input values
   const name = document.getElementById('name').innerText;
   const patientNumber = document.getElementById('patient_number').innerText;
-  const referralDoctor = document.querySelector('#refferalDoctor').value;
+
+  const referralDoctor = document.querySelector('#doctors').value;
   const waitingNumber = 23;
   const hospitalSelectElement = document.querySelector('#hospital');
   const hospitalSelectedIndex = hospitalSelectElement.selectedIndex;
@@ -479,6 +484,85 @@ function sendSMSMessage() {
       if (xhr.status === 200) {
         // Request successful
         alert('SMS message sent successfully');
+      } else {
+        // Request failed
+        console.error('Error:', xhr.statusText);
+      }
+    }
+  };
+
+  // Send the request
+  xhr.send(JSON.stringify(details));
+}
+hospital.addEventListener('change', get_doctors);
+speciality.addEventListener('change', get_doctors);
+
+function get_doctors() {
+  console.log(hospital.value);
+
+  // Create the request object
+  const xhr = new XMLHttpRequest();
+
+  let details = {
+    "hospital": hospital.value,
+    "specialty": speciality.value
+  };
+
+  // Open the request
+  xhr.open('POST', '/search_doctor/', true); // Change 'search_doctor' to 'search_doctor/'
+
+  // Set the request header
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // Define the callback function for handling the response
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {hospital.addEventListener('change',get_doctors)
+speciality.addEventListener('change',get_doctors)
+
+function get_doctors(){
+  console.log(hospital.value)
+  // Create the request object
+  const xhr = new XMLHttpRequest();
+  let details = {
+    "hospital":hospital.value,
+    "specialty":speciality.value,
+  }
+  // Open the request
+
+  xhr.open('POST', '/search_doctor/', true);
+
+  // Set the request header
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // Define the callback function for handling the response
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      doctors.innerHTML = ''
+      if (xhr.status === 200) {
+        // Request successful
+        const response = JSON.parse(xhr.responseText);
+        // Loop through the doctors and add them as options
+        response.results.forEach(doctor => {
+          const option = document.createElement('option');
+          option.value = doctor; // Assuming the value is the doctor's name
+          option.text = `${doctor}`;
+          doctors.add(option);
+        });
+      } else {
+        // Request failed
+        console.error('Error:', xhr.statusText);
+      }
+    }
+  };
+
+  // Send the request
+  xhr.send(JSON.stringify(details));
+
+}
+
+        // Request successful
+        console.log('Request successful'); // Remove the alert or use a more appropriate message
       } else {
         // Request failed
         console.error('Error:', xhr.statusText);
