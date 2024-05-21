@@ -1,3 +1,4 @@
+from os import name
 from django.urls import path
 from . import views
 
@@ -20,5 +21,7 @@ urlpatterns = [
     path('send_sms/',views.send_sms_message,name="send_sms_message"),
     path('search_notifications/',views.search_notifications,name="search_notifications"),
     path('search_service_provider/',views.search_service_provider,name="search_provider"),
+    path('get_doctor_in_hospital/',views.get_doctor_in_hospital,name="get_doctor_in_hospital"),
+    path('search_doctor/',views.search_doctor,name="search_doctor")
 ]
 

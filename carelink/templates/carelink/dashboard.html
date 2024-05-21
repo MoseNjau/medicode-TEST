@@ -21,17 +21,19 @@
     body{
       overflow-y:hidden;
     }
-    button {
+  
+  button {
   position: relative;
   display: inline-block;
-  margin: 15px;
-  padding: 2px 5px;
+  margin: 2px;
+  width:80px;
+  padding:5px;
   text-align: center;
   font-size: 18px;
   letter-spacing: 1px;
   text-decoration: none;
-  color: #725AC1;
-  background: transparent;
+  color: #fff;
+  background:#725AC1;
   cursor: pointer;
   transition: ease-out 0.5s;
   border: 2px solid #725AC1;
@@ -50,19 +52,23 @@ button:active {
 /* For WebKit-based browsers (Chrome, Safari, Opera) */
 ::-webkit-scrollbar {
   width: 12px; /* Width of the scrollbar */
+  visibility:hidden;
 }
 
 ::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Color of the track (area behind the scrollbar) */
+  visibility:hidden;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: #888; /* Color of the scrollbar thumb (draggable part) */
   border-radius: 6px; /* Rounded corners for the scrollbar thumb */
+  visibility:hidden;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555; /* Color of the scrollbar thumb on hover */
+  visibility:hidden;
 }
 
 /* For Firefox */
@@ -70,28 +76,32 @@ button:active {
   scrollbar-width: thin; /* Width of the scrollbar */
   scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
 }
+
+.hidden{
+  visibility:hidden; 
+}
   </style>
-  <nav class="navbar navbar-expand-lg">
+ <nav class="navbar navbar-expand-lg container">
         <img src="{%static 'Login hero.png'%}" alt="logo" width="30">
-        <a class="navbar-brand carelink mx-2" href="#"> <b>CARELINK</b></a>
+        <a class="navbar-brand carelink mx-2" href={%url "dashboard"%}> <b>CARELINK</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link carelink" style="justify-self: flex-end;" href="{% url 'profile' %}">my profile <i class="fas fa-user"></i></a>
+                  <a class="nav-link carelink" style="justify-self: flex-end;" href={% url "profile"%}>my profile <i class="fas fa-user"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link carelink" style="justify-self: flex-end;" href="/patients/">patients <i class="fas fa-wheelchair"></i></a>
+                  <a class="nav-link carelink" style="justify-self: flex-end;" href={%url "patients"%}>patients <i class="fas fa-wheelchair"></i></a>
                 </li> 
                 <li class="nav-item">
-                    <a class="nav-link carelink" style="justify-self: flex-end;" href="#">service providers <i class="fas fa-user-nurse"></i></a>
+                  <a class="nav-link carelink" style="justify-self: flex-end;" href={%url "service_providers"%}>service providers <i class="fas fa-user-nurse"></i></a>
                 </li>
             </ul>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mx-10">
                 <li class="nav-item">
                     <a class="nav-link carelink" style="justify-self: flex-end;" href="{% url 'logout' %}">Logout <i class="fas fa-sign-out-alt"></i></a>
                 </li>
@@ -119,7 +129,7 @@ button:active {
                   </div>
 
                   <div data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px">
-                    <h4>Recent Chats</h4>
+                    <h4>Carelink Users:</h4>
                     <ul class="list-unstyled mb-0">
                       {%for user in users%}
                       <li class="p-2 border-bottom" onclick="setReceiver({{user.pk}})">
@@ -131,12 +141,12 @@ button:active {
                             </div>
                             <div class="pt-1">
                               <p class="fw-bold mb-0">{{user.username}}</p>
-                              <p class="small text-muted">Hello, Are you there?</p>
+                              <p class="small text-muted">Hello there,I am using carelink</p>
                             </div>
                           </div>
                           <div class="pt-1">
-                            <p class="small text-muted mb-1">Just now</p>
-                            <span class="badge bg-danger rounded-pill float-end">3</span>
+                            <!-- <p class="small text-muted mb-1">Just now</p> -->
+                            <!-- <span class="badge bg-danger rounded-pill float-end">3</span> -->
                           </div>
                         </a>
                       </li>
@@ -179,10 +189,10 @@ button:active {
           </div>
         </div>
           <!-- message control -->
-           <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2" style="position:fixed;bottom:30px;left:40%;background:white;width:45%">
+           <div class="message-control text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2 hidden" style="position:fixed;bottom:30px;left:40%;background:white;width:45%">
           <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 3" style="width: 40px; height: 100%;">
-          <input type="text" class="form-control form-control-lg" id="message_content" placeholder="Type message">
-          <button class="ms-1 text-muted button" id= "attach"><i class="fas fa-paperclip"></i></button>
+          <input type="text" style="border-radius:25px;" class="form-control form-control-lg" id="message_content" placeholder="Type message">
+          <button class="ms-1 button" id= "attach"><i class="fas fa-paperclip"></i></button>
           <button class="ms-3 button" id="send"><i class="fas fa-paper-plane"></i></button>
         </div>
        
@@ -209,6 +219,7 @@ var receiverId = 0;
 function setReceiver(id) {
   receiverId = id;
   console.log('Receiver ID:', receiverId);
+  document.querySelector('.message-control').classList.remove('hidden')
 }
 // Function to scroll chat log to bottom
 function scrollToBottom() {
