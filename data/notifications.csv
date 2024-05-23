@@ -9,4 +9,4 @@ pk,urgency,patient_number,reason,patient_name,time,queue_number
 8,normal,86420,eye infection,Sarah Taylor,2024-05-12 09:45,8
 9,high,64208,head trauma,James Martinez,2024-05-12 10:00,9
 10,normal,35791,physical therapy,Emma Anderson,2024-05-12 10:15,10
-11,high,11111,stroke symptoms,Olivia Garcia,2024-05-12 10:30,11
+11,low,11111,stroke symptoms,Olivia Garcia,2024-05-12 10:30,11
