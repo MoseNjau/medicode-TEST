@@ -399,7 +399,7 @@ def service_providers(request):
     with open(file_path, 'r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         for i, row in enumerate(csv_reader):
-            if i < 50:  # Limit to the first 50 rows
+            if i < 100:  # Limit to the first 50 rows
                 hospitals.append({'name': row['Facility Name'], 'lat': row['Latitude'], 'long': row['Longitude'],'level':row['Agency']})
             else:
                 break
