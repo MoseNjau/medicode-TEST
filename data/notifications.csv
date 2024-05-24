@@ -1,12 +1,35 @@
 pk,urgency,patient_number,reason,patient_name,time,queue_number
-1,high,12345,emergency appendectomy,John Doe,2024-05-12 08:00,1
-2,normal,54321,annual checkup,Jane Smith,2024-05-12 08:15,2
-3,high,98765,severe allergic reaction,Michael Johnson,2024-05-12 08:30,3
-4,normal,24680,flu symptoms,Amy Brown,2024-05-12 08:45,4
-5,high,13579,compound fracture,Robert Williams,2024-05-12 09:00,5
-6,normal,97531,pediatric vaccination,Emily Davis,2024-05-12 09:15,6
-7,high,24680,heart attack,David Wilson,2024-05-12 09:30,7
-8,normal,86420,eye infection,Sarah Taylor,2024-05-12 09:45,8
-9,high,64208,head trauma,James Martinez,2024-05-12 10:00,9
-10,normal,35791,physical therapy,Emma Anderson,2024-05-12 10:15,10
-11,low,11111,stroke symptoms,Olivia Garcia,2024-05-12 10:30,11
+1,high,12345,emergency appendectomy,Juma Omondi,2024-05-12 10:00,1
+1,medium,12345,follow-up checkup,Juma Omondi,2024-05-14 12:00,1
+1,low,12345,routine blood test,Juma Omondi,2024-05-20 14:00,1
+2,high,23456,annual checkup,Atieno Onyango,2024-05-12 10:15,2
+2,medium,23456,follow-up visit,Atieno Onyango,2024-05-14 12:15,2
+2,low,23456,routine lab work,Atieno Onyango,2024-05-20 14:15,2
+3,high,34567,severe allergic reaction,Kamau Kinyanjui,2024-05-12 10:30,3
+3,medium,34567,allergy testing,Kamau Kinyanjui,2024-05-14 12:30,3
+3,low,34567,routine checkup,Kamau Kinyanjui,2024-05-20 14:30,3
+4,high,45678,flu symptoms,Akinyi Okello,2024-05-12 10:45,4
+4,medium,45678,follow-up flu check,Akinyi Okello,2024-05-14 12:45,4
+4,low,45678,general consultation,Akinyi Okello,2024-05-20 14:45,4
+5,high,56789,compound fracture,Mutuku Musyoka,2024-05-12 11:00,5
+5,medium,56789,follow-up x-ray,Mutuku Musyoka,2024-05-14 13:00,5
+5,low,56789,routine checkup,Mutuku Musyoka,2024-05-20 15:00,5
+6,high,67890,pediatric vaccination,Adhiambo Owino,2024-05-12 11:15,6
+6,medium,67890,follow-up vaccination,Adhiambo Owino,2024-05-14 13:15,6
+6,low,67890,general checkup,Adhiambo Owino,2024-05-20 15:15,6
+7,high,78901,heart attack,Kangangi Muriuki,2024-05-12 11:30,7
+7,medium,78901,follow-up cardiology,Kangangi Muriuki,2024-05-14 13:30,7
+7,low,78901,routine cardiology check,Kangangi Muriuki,2024-05-20 15:30,7
+8,high,89012,eye infection,Akoth Otieno,2024-05-12 11:45,8
+8,medium,89012,follow-up eye check,Akoth Otieno,2024-05-14 13:45,8
+8,low,89012,routine eye exam,Akoth Otieno,2024-05-20 15:45,8
+9,high,90123,head trauma,Wambua Kyalo,2024-05-12 12:00,9
+9,medium,90123,follow-up head injury,Wambua Kyalo,2024-05-14 14:00,9
+9,low,90123,routine neurological check,Wambua Kyalo,2024-05-20 16:00,9
+10,high,10234,physical therapy,Auma Odongo,2024-05-12 12:15,10
+10,medium,10234,follow-up therapy,Auma Odongo,2024-05-14 14:15,10
+10,low,10234,routine therapy session,Auma Odongo,2024-05-20 16:15,10
+11,high,11345,stroke symptoms,Wafula Wekesa,2024-05-12 12:30,11
+11,medium,11345,follow-up stroke check,Wafula Wekesa,2024-05-14 14:30,11
+11,low,11345,routine neurology visit,Wafula Wekesa,2024-05-20 16:30,11
+
