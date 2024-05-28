@@ -20,5 +20,6 @@ class User_profile(models.Model):
     #it should not have a default place holder for the image
     #it should be blank=True
     profile_pic = models.ImageField( blank=True, null=True)
+    bio = models.TextField(blank=True, null = True)
     def __str__(self):
         return self.user.username    
