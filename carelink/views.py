@@ -178,7 +178,7 @@ def get_doctor_in_hospital(request):
     
     doctors = set()
     with open(file_path, 'r') as csv_file:
-        csv_reader = csv.DictReader(csv_file)[:50]
+        csv_reader = csv.DictReader(csv_file)[0:100]
         for row in csv_reader:
             if row['hospital_name'] == hospital_name:
                 doctors.add(row)
