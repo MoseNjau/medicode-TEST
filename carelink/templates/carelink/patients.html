@@ -113,7 +113,6 @@ html {
 }
 .patient-action{
   flex:2;
-  border-left:1px solid gray;
   padding:0 2rem;
   overflow-y:scroll;
 }
@@ -181,28 +180,40 @@ input[type="text"]:focus {
   border-color: #4CAF50;
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
-/* For WebKit-based browsers (Chrome, Safari, Opera) */
+nav{
+  background:#583881;
+}
+.nav-link{
+  color:#fff;
+}
+.nav-link:hover{
+  color:#DB7461;
+}
+section i{
+  color:#583881;
+}
+h4,h3,th{
+  color:#583881;
+}
+/* Webkit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
+    width: 12px;  /* Adjust the width of the scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1; /* Color of the track (area behind the scrollbar) */
+    background: white;  /* Background of the scrollbar track */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #888; /* Color of the scrollbar thumb (draggable part) */
-  border-radius: 6px; /* Rounded corners for the scrollbar thumb */
+    background-color: #DB7461;  /* Color of the scrollbar thumb */
+    border-radius: 20px;  /* Rounded corners of the scrollbar thumb */
+    border: 2px solid white;  /* Optional: border around the thumb */
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Color of the scrollbar thumb on hover */
-}
-
-/* For Firefox */
+/* Firefox */
 * {
-  scrollbar-width: thin; /* Width of the scrollbar */
-  scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
+    scrollbar-width: thin;
+    scrollbar-color: #DB7461 white;
 }
 .hidden{
   visibility:hidden;
@@ -240,10 +251,10 @@ input[type="text"]:focus {
   <section class="patient-wrapper container">
   <div class="mt-2 patient-list">
     <h3>Patient List</h3>
-    <input type="text" class="my-2" placeholder="search patient" id="patient-search" required/>
+    <input type="text" class="my-2" style="width:80%" placeholder="search patient" id="patient-search" required/>
     <i class="fas fa-search"></i>
     <!--card with patients data-->
-    <div class="patient-list">
+    <div class="list-patients">
       {%for patient in patients%}
     <!--patient card-->
     <div class="patient-details" id="1">
@@ -273,7 +284,6 @@ input[type="text"]:focus {
   <div class="patient-action mt-2 hidden">
     <h3><i class="fas fa-exclamation-circle"></i> Perfom Action</h3>
     <!--patient information-->
-      <!-- <!--condition--> -->
       <!-- <p class="patient-condition">Condition: <span>patient-condition</span></p> -->
       <!--personal information-->
       <p>Patient information:</p>
@@ -323,7 +333,7 @@ input[type="text"]:focus {
     var historyTable = document.querySelector('#history')
     var patientInfo =  document.querySelector('.patient-info')
     var patientSearchInput = document.querySelector('#patient-search') 
-    var patientDetails = document.querySelectorAll('.patient-list')[1]
+    var patientDetails = document.querySelector('.list-patients')
     var patientAction = document.querySelectorAll('.patient-action')
     var doctors = document.querySelector('#doctors') 
     var hospitals = document.querySelector('#hospitals')
@@ -392,7 +402,7 @@ input[type="text"]:focus {
     //search users 
     patientSearchInput.oninput = (e) => {
   console.log(patientSearchInput.value);
-
+  console.log(patientDetails.innerHTML)
   // Create a new XMLHttpRequest object
   const xhr = new XMLHttpRequest();
 
