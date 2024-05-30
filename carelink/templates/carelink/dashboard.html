@@ -27,7 +27,7 @@
   display: inline-block;
   margin: 2px;
   width:80px;
-  padding:5px;
+  padding:6px;
   text-align: center;
   font-size: 18px;
   letter-spacing: 1px;
@@ -43,42 +43,52 @@
 
 button:hover {
   color: white;
-  box-shadow: inset 0 -100px 0 0 #725AC1;
+  box-shadow: inset 0 -100px 0 0 #DB7461;
 }
 
 button:active {
   transform: scale(0.9);
 }
-/* For WebKit-based browsers (Chrome, Safari, Opera) */
+/* Webkit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
-  visibility:hidden;
+    width: 12px;  /* Adjust the width of the scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1; /* Color of the track (area behind the scrollbar) */
-  visibility:hidden;
+    background: white;  /* Background of the scrollbar track */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #888; /* Color of the scrollbar thumb (draggable part) */
-  border-radius: 6px; /* Rounded corners for the scrollbar thumb */
-  visibility:hidden;
+    background-color: #DB7461;  /* Color of the scrollbar thumb */
+    border-radius: 20px;  /* Rounded corners of the scrollbar thumb */
+    border: 2px solid white;  /* Optional: border around the thumb */
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Color of the scrollbar thumb on hover */
-  visibility:hidden;
-}
-
-/* For Firefox */
+/* Firefox */
 * {
-  scrollbar-width: thin; /* Width of the scrollbar */
-  scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
+    scrollbar-width: thin;
+    scrollbar-color: #DB7461 white;
 }
-
 .hidden{
   visibility:hidden; 
+}
+nav{
+  background:#583881;
+}
+.nav-link{
+  color:#fff;
+}
+.nav-link:hover{
+  color:#DB7461;
+}
+section i{
+  color:#583881;
+}
+h4{
+  color:#583881;
+}
+.username{
+  color:583881;
 }
   </style>
  <nav class="navbar navbar-expand-lg container">
@@ -108,8 +118,8 @@ button:active {
             </ul>
         </div>
     </nav>
-<section class="carelink-bg">
-  <div class="container py-5">
+<section class="py-5">
+  <div class="container">
 
     <div class="row" style="position:relative">
       <div class="col-md-12">
@@ -140,7 +150,7 @@ button:active {
                               <span class="badge bg-success badge-dot"></span>
                             </div>
                             <div class="pt-1">
-                              <p class="fw-bold mb-0">{{user.username}}</p>
+                              <p class="fw-bold mb-0 username" style="color:#583881">{{user.username}}</p>
                               <p class="small text-muted">Hello there,I am using carelink</p>
                             </div>
                           </div>
@@ -191,9 +201,8 @@ button:active {
           <!-- message control -->
            <div class="message-control text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2 hidden" style="position:fixed;bottom:30px;left:40%;background:white;width:45%">
           <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 3" style="width: 40px; height: 100%;">
-          <input type="text" style="border-radius:25px;" class="form-control form-control-lg" id="message_content" placeholder="Type message">
-          <button class="ms-1 button" id= "attach"><i class="fas fa-paperclip"></i></button>
-          <button class="ms-3 button" id="send"><i class="fas fa-paper-plane"></i></button>
+          <input type="text" style="border-radius:25px; border-color:#583881" class="form-control form-control-lg" id="message_content" placeholder="Type message">        
+          <button class="ms-3" style="background-color:#583881;border:none;padding-inline:0" id="send"><i class="fas fa-paper-plane"></i></button>
         </div>
        
 

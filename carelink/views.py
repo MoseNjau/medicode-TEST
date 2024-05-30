@@ -106,18 +106,32 @@ def send_message(request):
 @csrf_exempt
 def check_messages(request):
     if request.method == 'POST':
-        receiver_id = json.loads(request.body)['receiver']
+        try:
+            receiver_id = json.loads(request.body)['receiver']
+        except (KeyError, TypeError, json.JSONDecodeError):
+            return JsonResponse({'status': 'error', 'message': 'Invalid data'}, status=400)
+        
         # Get messages for the current user
-        user_messages = Message.objects.filter((Q(sender=request.user) & Q(receiver_id=receiver_id)) | (Q(sender_id=receiver_id) & Q(receiver=request.user))).order_by('timestamp') 
+        user_messages = Message.objects.filter(
+            (Q(sender=request.user) & Q(receiver_id=receiver_id)) | 
+            (Q(sender_id=receiver_id) & Q(receiver=request.user))
+        ).order_by('timestamp')
+        print(Message.objects) 
         # Serialize messages data
-        messages_data = [{'content': message.content, 'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S'),'sender':message.sender.pk == request.user.pk } for message in user_messages]
+        messages_data = [
+            {
+                'content': message.content, 
+                'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
+                'sender': message.sender.pk == request.user.pk
+            } 
+            for message in user_messages
+        ]
         
         # Return messages data as JSON response
         return JsonResponse(messages_data, safe=False)
     else:
-        # Return an error response if the request method is not GET
-        return JsonResponse({'status': 'error', 'message': 'Only GET requests are allowed'})
-
+        # Return an error response if the request method is not POST
+        return JsonResponse({'status': 'error', 'message': 'Only POST requests are allowed'}, status=405)
 @login_required
 @csrf_exempt
 def patients(request):
