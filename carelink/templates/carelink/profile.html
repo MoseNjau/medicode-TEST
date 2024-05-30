@@ -173,7 +173,7 @@
             {% csrf_token %} {% for profile in Profile %}
             <div class="image-section">
               <img
-                src="{% static 'profile_pics/user.PNG' %}"
+                src="{{ 'profile.profile_pic.url' }}"
                 alt="Profile Picture"
                 class="profile-image img-fluid mb-2"
               />

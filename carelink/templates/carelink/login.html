@@ -1,77 +1,125 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <!-- Font Awesome CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-</head>
-<body>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <!-- Custom CSS -->
     <style>
-        .custom-button {
-            background-color: #583881;
-            border-color: #583881;
-        }
-        .custom-button:hover {
-            background-color: #492f63;
-            border-color: #492f63;
-        }
-        strong{
-          color:#DB7461;
-          font-weight: bold;
-        }
-        a{
-          color:#DB7461;
-        }
-        body{
-          min-height: 100vh;
-          min-width: 100vw;
-          display:flex;
-          justify-content: center;
-          align-items: center;
-        }
+      .custom-button {
+        background-color: #583881;
+        border-color: #583881;
+        border-radius: 20px;
+      }
+      .custom-button:hover {
+        background-color: #492f63;
+        border-color: #492f63;
+      }
+      .input-group > .custom-select:not(:first-child),
+      .input-group > .form-control:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+      .input-group
+        > .input-group-append:last-child
+        > .btn:not(:last-child):not(.dropdown-toggle),
+      .input-group
+        > .input-group-append:last-child
+        > .input-group-text:not(:last-child),
+      .input-group > .input-group-append:not(:last-child) > .btn,
+      .input-group > .input-group-append:not(:last-child) > .input-group-text,
+      .input-group > .input-group-prepend > .btn,
+      .input-group > .input-group-prepend > .input-group-text {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+      }
+      strong {
+        color: #db7461;
+        font-weight: bold;
+      }
+      a {
+        color: #db7461;
+      }
+      body {
+        min-height: 100vh;
+        min-width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     </style>
     <div class="container mt-5">
-        <div class="row justify-content-between">
-            <div class="col-md-6">
-              <h4 class="text-left"><strong>Welcome back!</strong> Log in to securely access your unified health records and continue your seamless care journey</h4>
-                <form action="" method="post" autocomplete="off">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            </div>
-                            {{ loginform.username }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                            </div>
-                            {{ loginform.password }}
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block custom-button"><i class="fas fa-sign-in-alt"></i> Login</button>
-                </form>
-                <p class="text-center mt-3">Don't have an account? <a href="{% url 'register' %}"><i class="fas fa-user-plus"></i> Sign Up</a></p>
+      <div class="row justify-content-between">
+        <div class="col-md-6">
+          <h4 class="text-left">
+            <strong>Welcome back!</strong> Log in to securely access your
+            unified health records and continue your seamless care journey
+          </h4>
+          <form action="" method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-user"></i
+                  ></span>
+                </div>
+                {{ loginform.username }}
+              </div>
             </div>
-            <div class="col-md-4 mx-5 mt-0">
-                <img src="{% static 'Login hero.png' %}" class="img-fluid" style="max-width: 400px;" alt="Image">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    ><i class="fas fa-lock"></i
+                  ></span>
+                </div>
+                {{ loginform.password }}
+              </div>
             </div>
+            <button
+              type="submit"
+              class="btn btn-primary btn-block custom-button"
+            >
+              <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+          </form>
+          <p class="text-center mt-3">
+            Don't have an account?
+            <a href="{% url 'register' %}"
+              ><i class="fas fa-user-plus"></i> Sign Up</a
+            >
+          </p>
         </div>
+        <div class="col-md-4 mx-5 mt-0">
+          <img
+            src="{% static 'Login hero.png' %}"
+            class="img-fluid"
+            style="max-width: 400px"
+            alt="Image"
+          />
+        </div>
+      </div>
     </div>
 
     <!-- Bootstrap JS and dependencies (jQuery, Popper.js) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+  </body>
 </html>
-

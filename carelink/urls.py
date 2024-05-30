@@ -1,10 +1,12 @@
 from os import name
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', views.homepage, name='homepage'),
+    path('', views.dashboard, name='dashboard'),
     path('register/', views.register , name='register'),
     path('login/', views.login_view , name='login'),
     path('profile/', views.profile, name='profile'),
@@ -23,5 +25,5 @@ urlpatterns = [
     path('search_service_provider/',views.search_service_provider,name="search_provider"),
     path('get_doctor_in_hospital/',views.get_doctor_in_hospital,name="get_doctor_in_hospital"),
     path('search_doctor/',views.search_doctor,name="search_doctor")
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
