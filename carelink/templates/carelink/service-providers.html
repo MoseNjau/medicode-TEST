@@ -288,6 +288,9 @@ li a{
       padding: 10px;
       border-radius:10px;
     }
+.hidden{
+  display:none;
+}
     </style>
   <!--nav-->
 <nav class="navbar navbar-expand-lg container">
@@ -299,7 +302,7 @@ li a{
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                  <a class="nav-link carelink" style="justify-self: flex-end;" href={% url "profile"%}>my profile <i class="fas fa-user"></i></a>
+                  <a class="nav-link carelink hidden" style="justify-self: flex-end;" href={% url "profile"%}>my profile <i class="fas fa-user"></i></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link carelink" style="justify-self: flex-end;" href={%url "patients"%}>patients <i class="fas fa-wheelchair"></i></a>
@@ -326,7 +329,7 @@ li a{
     <div class="list-provider">
       {%for notification in notifications%}
     <!--patient card-->
-    <div class="provider-details" id="1">
+    <div class="provider-details" id="{{notification.queue_number}}">
       <!--icon-->
       <i class="fas fa-user-injured"></i>
       <!--patient number-->
@@ -337,7 +340,7 @@ li a{
       <p>Time: <span>{{notification.time}}</span></p>
       <p>Urgency: <span class="{{notification.urgency_color}}">{{notification.urgency}}</span></p>
       <!--action button-->
-      <button class='view-button bg-danger' onclick="alert(`patient {{notification.patient_name}} acknowledged`)">
+      <button class='view-button bg-danger' onclick="resend(`{{notification.patient_name}}`,`{{notification.queue_number}}`)">
        Acknowledge
       <div class="arrow-wrapper">
         <div class="arrow"></div>
@@ -433,7 +436,42 @@ function searchServiceProviders() {
     // Send the request with JSON payload
     xhr.send(JSON.stringify(requestData));
 }
+//resend sms function 
+function resend(name,id){
+  // Create the details object
+  const details = {
+    'name': name,
+    'id':id
+  };
 
+  // Create the request object
+  const xhr = new XMLHttpRequest();
+
+  // Open the request
+
+  xhr.open('POST', '/resend_sms/', true);
+
+  // Set the request header
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // Define the callback function for handling the response
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Request successful
+        alert('patient '+name+ 'has been acknowledged ');
+        document.getElementById(id).classList.add('hidden')
+      } else {
+        // Request failed
+        console.error('Error:', xhr.statusText);
+      }
+    }
+  };
+
+  // Send the request
+  xhr.send(JSON.stringify(details));
+
+}
 // Function to display service providers
 function displayServiceProviders(results) {
     const resultsContainer = document.getElementById('results_service_providers');

@@ -1,35 +1,62 @@
 pk,urgency,patient_number,reason,patient_name,time,queue_number
-1,high,12345,emergency appendectomy,Juma Omondi,2024-05-12 10:00,1
-1,medium,12345,follow-up checkup,Juma Omondi,2024-05-14 12:00,1
-1,low,12345,routine blood test,Juma Omondi,2024-05-20 14:00,1
-2,high,23456,annual checkup,Atieno Onyango,2024-05-12 10:15,2
-2,medium,23456,follow-up visit,Atieno Onyango,2024-05-14 12:15,2
-2,low,23456,routine lab work,Atieno Onyango,2024-05-20 14:15,2
-3,high,34567,severe allergic reaction,Kamau Kinyanjui,2024-05-12 10:30,3
-3,medium,34567,allergy testing,Kamau Kinyanjui,2024-05-14 12:30,3
-3,low,34567,routine checkup,Kamau Kinyanjui,2024-05-20 14:30,3
-4,high,45678,flu symptoms,Akinyi Okello,2024-05-12 10:45,4
-4,medium,45678,follow-up flu check,Akinyi Okello,2024-05-14 12:45,4
-4,low,45678,general consultation,Akinyi Okello,2024-05-20 14:45,4
-5,high,56789,compound fracture,Mutuku Musyoka,2024-05-12 11:00,5
-5,medium,56789,follow-up x-ray,Mutuku Musyoka,2024-05-14 13:00,5
-5,low,56789,routine checkup,Mutuku Musyoka,2024-05-20 15:00,5
-6,high,67890,pediatric vaccination,Adhiambo Owino,2024-05-12 11:15,6
-6,medium,67890,follow-up vaccination,Adhiambo Owino,2024-05-14 13:15,6
-6,low,67890,general checkup,Adhiambo Owino,2024-05-20 15:15,6
-7,high,78901,heart attack,Kangangi Muriuki,2024-05-12 11:30,7
-7,medium,78901,follow-up cardiology,Kangangi Muriuki,2024-05-14 13:30,7
-7,low,78901,routine cardiology check,Kangangi Muriuki,2024-05-20 15:30,7
-8,high,89012,eye infection,Akoth Otieno,2024-05-12 11:45,8
-8,medium,89012,follow-up eye check,Akoth Otieno,2024-05-14 13:45,8
-8,low,89012,routine eye exam,Akoth Otieno,2024-05-20 15:45,8
-9,high,90123,head trauma,Wambua Kyalo,2024-05-12 12:00,9
-9,medium,90123,follow-up head injury,Wambua Kyalo,2024-05-14 14:00,9
-9,low,90123,routine neurological check,Wambua Kyalo,2024-05-20 16:00,9
-10,high,10234,physical therapy,Auma Odongo,2024-05-12 12:15,10
-10,medium,10234,follow-up therapy,Auma Odongo,2024-05-14 14:15,10
-10,low,10234,routine therapy session,Auma Odongo,2024-05-20 16:15,10
-11,high,11345,stroke symptoms,Wafula Wekesa,2024-05-12 12:30,11
-11,medium,11345,follow-up stroke check,Wafula Wekesa,2024-05-14 14:30,11
-11,low,11345,routine neurology visit,Wafula Wekesa,2024-05-20 16:30,11
+1,high,12345,emergency appendectomy,Juma Omondi,2024-05-30 10:00,1
+1,medium,12345,follow-up checkup,Atieno Onyango,2024-05-30 12:00,2
+1,low,12345,routine blood test,Kamau Kinyanjui,2024-05-30 14:00,3
+2,high,23456,annual checkup,Akinyi Okello,2024-05-30 10:15,4
+2,medium,23456,follow-up visit,Mutuku Musyoka,2024-05-30 12:15,5
+2,low,23456,routine lab work,Adhiambo Owino,2024-05-30 14:15,6
+3,high,34567,severe allergic reaction,Kangangi Muriuki,2024-05-30 10:30,7
+3,medium,34567,allergy testing,Akoth Otieno,2024-05-30 12:30,8
+3,low,34567,routine checkup,Wambua Kyalo,2024-05-30 14:30,9
+4,high,45678,flu symptoms,Auma Odongo,2024-05-30 10:45,10
+4,medium,45678,follow-up flu check,Wafula Wekesa,2024-05-30 12:45,11
+4,low,45678,general consultation,Awino Odhiambo,2024-05-30 14:45,12
+5,high,56789,compound fracture,Kiprono Kosgei,2024-05-30 11:00,13
+5,medium,56789,follow-up x-ray,Achieng Ouma,2024-05-30 13:00,14
+5,low,56789,routine checkup,Mutua Nzioka,2024-05-30 15:00,15
+6,high,67890,pediatric vaccination,Akeyo Onyango,2024-05-30 11:15,16
+6,medium,67890,follow-up vaccination,Muriithi Mwangi,2024-05-30 13:15,17
+6,low,67890,general checkup,Awuor Ochieng,2024-05-30 15:15,18
+7,high,78901,heart attack,Wanjala Wafula,2024-05-30 11:30,19
+7,medium,78901,follow-up cardiology,Atieno Oduor,2024-05-30 13:30,20
+7,low,78901,routine cardiology check,Juma Omondi,2024-05-30 15:30,21
+8,high,89012,eye infection,Atieno Onyango,2024-05-30 11:45,22
+8,medium,89012,follow-up eye check,Kamau Kinyanjui,2024-05-30 13:45,23
+8,low,89012,routine eye exam,Akinyi Okello,2024-05-30 15:45,24
+9,high,90123,head trauma,Mutuku Musyoka,2024-05-30 12:00,25
+9,medium,90123,follow-up head injury,Adhiambo Owino,2024-05-30 14:00,26
+9,low,90123,routine neurological check,Kangangi Muriuki,2024-05-30 16:00,27
+10,high,10234,physical therapy,Akoth Otieno,2024-05-30 12:15,28
+10,medium,10234,follow-up therapy,Wambua Kyalo,2024-05-30 14:15,29
+10,low,10234,routine therapy session,Auma Odongo,2024-05-30 16:15,30
+11,high,11345,stroke symptoms,Wafula Wekesa,2024-05-30 12:30,31
+11,medium,11345,follow-up stroke check,Awino Odhiambo,2024-05-30 14:30,32
+11,low,11345,routine neurology visit,Kiprono Kosgei,2024-05-30 16:30,33
+12,high,12456,migraine attack,Achieng Ouma,2024-05-30 12:45,34
+12,medium,12456,follow-up migraine check,Mutua Nzioka,2024-05-30 14:45,35
+12,low,12456,routine headache assessment,Akeyo Onyango,2024-05-30 16:45,36
+13,high,13567,kidney pain,Muriithi Mwangi,2024-05-30 13:00,37
+13,medium,13567,follow-up kidney function,Awuor Ochieng,2024-05-30 15:00,38
+13,low,13567,routine nephrology visit,Wanjala Wafula,2024-05-30 17:00,39
+14,high,14678,shortness of breath,Atieno Oduor,2024-05-30 13:15,40
+14,medium,14678,follow-up respiratory check,Juma Omondi,2024-05-30 15:15,41
+14,low,14678,routine pulmonary exam,Atieno Onyango,2024-05-30 17:15,42
+15,high,15789,liver disease management,Kamau Kinyanjui,2024-05-30 13:30,43
+15,medium,15789,follow-up liver function,Akinyi Okello,2024-05-30 15:30,44
+15,low,15789,routine hepatology visit,Mutuku Musyoka,2024-05-30 17:30,45
+16,high,16890,movement disorder,Adhiambo Owino,2024-05-30 13:45,46
+16,medium,16890,follow-up neurology,Kangangi Muriuki,2024-05-30 15:45,47
+16,low,16890,routine neurological check,Akoth Otieno,2024-05-30 17:45,48
+17,high,17901,memory loss,Wambua Kyalo,2024-05-30 14:00,49
+17,medium,17901,follow-up dementia check,Auma Odongo,2024-05-30 16:00,50
+17,low,17901,routine memory assessment,Wafula Wekesa,2024-05-30 18:00,51
+18,high,18012,seizure,Awino Odhiambo,2024-05-30 14:15,52
+18,medium,18012,follow-up seizure check,Kiprono Kosgei,2024-05-30 16:15,53
+18,low,18012,routine epilepsy check,Achieng Ouma,2024-05-30 18:15,54
+19,high,19023,multiple sclerosis flare-up,Mutua Nzioka,2024-05-30 14:30,55
+19,medium,19023,follow-up MS check,Akeyo Onyango,2024-05-30 16:30,56
+19,low,19023,routine MS management,Muriithi Mwangi,2024-05-30 18:30,57
+20,high,20134,stroke management,Awuor Ochieng,2024-05-30 14:45,58
+20,medium,20134,follow-up stroke management,Wanjala Wafula,2024-05-30 16:45,59
+20,low,20134,routine stroke recovery,Atieno Oduor,2024-05-30 18:45,60
 

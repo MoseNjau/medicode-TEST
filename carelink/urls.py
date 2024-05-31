@@ -21,6 +21,7 @@ urlpatterns = [
     path('retrieve_history/',views.retrieve_history,name="retrieve_history"),
     path('search/',views.search,name="search"),
     path('send_sms/',views.send_sms_message,name="send_sms_message"),
+    path('resend_sms/',views.send_sms_back,name="send_sms_back"),
     path('search_notifications/',views.search_notifications,name="search_notifications"),
     path('search_service_provider/',views.search_service_provider,name="search_provider"),
     path('get_doctor_in_hospital/',views.get_doctor_in_hospital,name="get_doctor_in_hospital"),
