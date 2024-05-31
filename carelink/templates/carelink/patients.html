@@ -219,6 +219,9 @@ h4,h3,th{
   visibility:hidden;
   flex:0;
 }
+label,select{
+  margin-top:5px;
+}
     </style>
   <!--nav-->
   <nav class="navbar navbar-expand-lg container">
@@ -230,7 +233,7 @@ h4,h3,th{
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                  <a class="nav-link carelink" style="justify-self: flex-end;" href={% url "profile"%}>my profile <i class="fas fa-user"></i></a>
+                  <a class="nav-link carelink hidden" style="justify-self: flex-end;" href={% url "profile"%}>my profile <i class="fas fa-user"></i></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link carelink" style="justify-self: flex-end;" href={%url "patients"%}>patients <i class="fas fa-wheelchair"></i></a>
@@ -304,24 +307,33 @@ h4,h3,th{
   </thead>
 </table>
 <div>
-      <label for="hospital">to reffer to:</label>
+      <label for="hospital">To reffer to:</label>
       <select id="hospital">
+        <option value=""option value=""></option>
         {%for hospital in hospitals%}
         <option value="{{hospital}}">{{hospital}}</option>
         {%endfor%}
       </select>
-
-      <label for="speciality">speciality:</label>
+      <br/>
+      <label for="speciality">Speciality:</label>
       <select id="speciality">
         <option value=""option value=""></option>
         {%for speciality in speciality%} 
         <option value="{{speciality}}">{{speciality}}</option>
         {%endfor%}
       </select>
-
+      <br/>
       <label for="doctors">Choose doctor:</label>
       <select id="doctors">
       </select>
+      <br/>
+      <label for="urgency">Urgency:</label>
+      <select id="urgency">
+        <option value="high">high</option>
+        <option value="medium">medium</option>
+        <option value="low">low</option>
+      </select>
+      <br/>
       <input type="text" class="mt-2" placeholder="Reason for refferal" id="refferalReason" required/> 
 </div>
       <button class="view-button mt-2" onclick = 'sendSMSMessage()'>
@@ -339,6 +351,8 @@ h4,h3,th{
     var doctors = document.querySelector('#doctors') 
     var hospitals = document.querySelector('#hospitals')
     var speciality = document.querySelector('#speciality')
+    var urgency = document.querySelector('#urgency')
+
     //load selected patient details 
     var loadPatientDetails = (number) =>{
       patientAction[1].classList.remove('hidden')
@@ -476,7 +490,8 @@ function sendSMSMessage() {
     'patient_number': patientNumber,
     'refferalDoctor': referralDoctor,
     'waiting_number': waitingNumber,
-    'hospital':hospitalSelectedText
+    'hospital':hospitalSelectedText,
+    'urgency':urgency.value
   };
 
   // Create the request object

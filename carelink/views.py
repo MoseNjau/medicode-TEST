@@ -153,18 +153,16 @@ def patients(request):
         for row in csv_reader:
             data.append(row)
     # Pass the data to the template or return it as a JSON response
-    file_path = os.path.join(settings.BASE_DIR, 'data', 'Health_facilities(Health_facilities_0).csv')
+    file_path = os.path.join(settings.BASE_DIR, 'data', 'doctors.csv')
     hospitals = set()
-    agency = set()
     with open(file_path, 'r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         for row in csv_reader:
-            hospitals.add(row['Facility Name'])
-            agency.add(row['Agency'])
+            hospitals.add(row['hospital_name'])
         if len(hospitals) == 0:
             hospitals.add('Not hospitals in the DATASET')
 
-    context = {'patients': data,'hospitals':hospitals,'agency':agency,"speciality":specialty}
+    context = {'patients': data,'hospitals':hospitals,"speciality":specialty}
     return render(request,"carelink/patients.html",context)
 
 @login_required
@@ -183,7 +181,7 @@ def get_doctor_in_hospital(request):
             if row['hospital_name'] == hospital_name:
                 doctors.add(row)
         if len(doctors) == 0:
-            doctors.add('Not hospitals in the DATASET')
+            doctors.add('No hospitals in the DATASET')
 
     context = {'doctors': doctors}
     return JsonResponse(context)
@@ -344,7 +342,8 @@ def send_sms_message(request):
         name,
         patient_number,
         refferalDoctor,
-        waiting number
+        waiting number,
+        urgency
         }
         """
         PHONE_NUMBER = os.getenv('PHONE_NUMBER')
@@ -361,7 +360,7 @@ def send_sms_message(request):
         referral_doctor = details.get('refferalDoctor')
         waiting_number = details.get('waiting_number')
         hospital = details.get('hospital')
-
+        urgency = details.get('urgency')
         # Prepare the referral message
         referral_message = f"{name}, upon evaluating your condition, we reffer you to {referral_doctor} of {hospital} for further care. The hospital has specialists who can better manage your condition. Please take your medical records with you, your waiting number is {waiting_number}."
         message = client.messages.create(
@@ -370,7 +369,36 @@ def send_sms_message(request):
         to='+254702716555'
 )
         print(message.sid)
+        #clinician message
+        referral_message = f"Dear clinician, expect patient {name} for refferal. The urgency of the refferal is {urgency.upper()}"
+        message = client.messages.create(
+        messaging_service_sid=TWILIO_MESSAGE_SERVICE_SID,
+        body=referral_message,
+        to='+254702716555'
+        ) 
         return JsonResponse({'message':'message successfully sent to patient'})
+@login_required
+@csrf_exempt
+def send_sms_back(request):
+        PHONE_NUMBER = os.getenv('PHONE_NUMBER')
+        TWILIO_ACCOUNT_SID = os.getenv('ACC_SID')
+        TWILIO_AUTH_TOKEN = os.getenv('AUTH_TOKEN')
+        TWILIO_MESSAGE_SERVICE_SID = os.getenv('MESSAGING_SERVICE')
+
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        if request.method == 'POST':
+            details = json.loads(request.body)
+            name = details.get('name')
+            # Prepare message sent back 
+            referral_message = f"Dear clinician, your patient : {name} has been attended to."
+            message = client.messages.create(
+            messaging_service_sid=TWILIO_MESSAGE_SERVICE_SID,
+            body=referral_message,
+            to='+254702716555'
+
+            )
+
+        return JsonResponse({'message':'message sent to clinician'})
 
 @login_required
 @csrf_exempt
@@ -406,7 +434,7 @@ def service_providers(request):
             specialty.add(row['specialty'])
 
     if len(specialty) == 0:
-        specialty.add('Not hospitals in the DATASET')
+        specialty.add('No hospitals in the DATASET')
 
     file_path = os.path.join(settings.BASE_DIR, 'data', 'Health_facilities(Health_facilities_0).csv')
     hospitals = []
@@ -419,7 +447,7 @@ def service_providers(request):
                 break
 
     if len(hospitals) == 0:
-        hospitals.append('Not hospitals in the DATASET')
+        hospitals.append('No hospitals in the DATASET')
 
     return render(request, "carelink/service-providers.html", {"notifications": notifications, "hospitals": hospitals, "specialties": specialty})
 

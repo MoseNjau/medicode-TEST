@@ -1,21 +1,21 @@
-name,patient_number,contact information,location
-Juma Omondi,12345,"juma@email.co.ke,0712345678",Nairobi
-Atieno Onyango,23456,"atieno@email.co.ke,0723456789",Mombasa
-Kamau Kinyanjui,34567,"kamau@email.co.ke,0734567890",Kisumu
-Akinyi Okello,45678,"akinyi@email.co.ke,0745678901",Nakuru
-Mutuku Musyoka,56789,"mutuku@email.co.ke,0756789012",Eldoret
-Adhiambo Owino,67890,"adhiambo@email.co.ke,0767890123",Kitale
-Kangangi Muriuki,78901,"kangangi@email.co.ke,0778901234",Nyeri
-Akoth Otieno,89012,"akoth@email.co.ke,0789012345",Kakamega
-Wambua Kyalo,90123,"wambua@email.co.ke,0790123456",Machakos
-Auma Odongo,10234,"auma@email.co.ke,0701234567",Kisii
-Wafula Wekesa,11345,"wafula@email.co.ke,0712345670",Bungoma
-Awino Odhiambo,12456,"awino@email.co.ke,0723456701",Malindi
-Kiprono Kosgei,13567,"kiprono@email.co.ke,0734567012",Kericho
-Achieng Ouma,14678,"achieng@email.co.ke,0745678923",Garissa
-Mutua Nzioka,15789,"mutua@email.co.ke,0756789034",Embu
-Akeyo Onyango,16890,"akeyo@email.co.ke,0767890145",Thika
-Muriithi Mwangi,17901,"muriithi@email.co.ke,0778901256",Kilifi
-Awuor Ochieng,18012,"awuor@email.co.ke,0789012367",Meru
-Wanjala Wafula,19023,"wanjala@email.co.ke,0790123478",Vihiga
-Atieno Oduor,20134,"atieno@email.co.ke,0701234589",Isiolo
+name,patient_number,contact information,location,patient_condition
+Juma Omondi,12345,"juma@email.co.ke,0712345678",Nairobi,Hypertension
+Atieno Onyango,23456,"atieno@email.co.ke,0723456789",Mombasa,Diabetes
+Kamau Kinyanjui,34567,"kamau@email.co.ke,0734567890",Kisumu,Asthma
+Akinyi Okello,45678,"akinyi@email.co.ke,0745678901",Nakuru,Arthritis
+Mutuku Musyoka,56789,"mutuku@email.co.ke,0756789012",Eldoret,High Cholesterol
+Adhiambo Owino,67890,"adhiambo@email.co.ke,0767890123",Kitale,Obesity
+Kangangi Muriuki,78901,"kangangi@email.co.ke,0778901234",Nyeri,Heart Disease
+Akoth Otieno,89012,"akoth@email.co.ke,0789012345",Kakamega,Osteoporosis
+Wambua Kyalo,90123,"wambua@email.co.ke,0790123456",Machakos,Chronic Pain
+Auma Odongo,10234,"auma@email.co.ke,0701234567",Kisii,Anxiety
+Wafula Wekesa,11345,"wafula@email.co.ke,0712345670",Bungoma,Depression
+Awino Odhiambo,12456,"awino@email.co.ke,0723456701",Malindi,Migraine
+Kiprono Kosgei,13567,"kiprono@email.co.ke,0734567012",Kericho,Chronic Kidney Disease
+Achieng Ouma,14678,"achieng@email.co.ke,0745678923",Garissa,COPD
+Mutua Nzioka,15789,"mutua@email.co.ke,0756789034",Embu,Liver Disease
+Akeyo Onyango,16890,"akeyo@email.co.ke,0767890145",Thika,Parkinson's Disease
+Muriithi Mwangi,17901,"muriithi@email.co.ke,0778901256",Kilifi,Alzheimer's Disease
+Awuor Ochieng,18012,"awuor@email.co.ke,0789012367",Meru,Epilepsy
+Wanjala Wafula,19023,"wanjala@email.co.ke,0790123478",Vihiga,Multiple Sclerosis
+Atieno Oduor,20134,"atieno@email.co.ke,0701234589",Isiolo,Stroke
